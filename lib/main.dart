@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         body: SafeArea(
       child: //AuthService().handleAuthState(),
-            OpenPage(),
+            DashPage(),
     ));
   }
 }
