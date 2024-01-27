@@ -5,6 +5,7 @@ import 'package:medtrack/graphs.dart';
 import 'package:medtrack/history.dart';
 import 'package:medtrack/medications.dart';
 import 'package:medtrack/openPage.dart';
+import 'package:medtrack/pages/dash.dart';
 import 'package:medtrack/register.dart';
 import 'package:medtrack/homePage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -54,7 +55,8 @@ class MyApp extends StatelessWidget {
         'settings': (context) => Settings(),
         'updateSOS': (context) => updateSOS(),
         'graphs': (context) => graphs(),
-        'history': (context) => History()
+        'history': (context) => History(),
+        'dashboard': (context) => DashPage(),
       },
     );
   }

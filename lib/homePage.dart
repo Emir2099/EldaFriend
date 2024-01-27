@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:math';
-
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +93,6 @@ class _HomePageState extends State<HomePage> {
       print(timeEvents);
       medInDate = dataList;
       timeEvents = Events;
-      startTimerFromMinute(scheduleReminder);
 
       setState(() {
         showSpinner = false;
@@ -453,28 +452,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   void scheduleReminder() {
-    DateTime now = DateTime.now();
-    print(timeEvents.length);
-    if (DateFormat("dd.MM.yy").format(now).toString() == timeEvents[0]) {
-      for (int i = 1; i < timeEvents.length; i++) {
-        String eventTime = timeEvents[i];
-        List<String> timeParts = eventTime.split(':');
+  DateTime now = DateTime.now();
+  print(timeEvents.length);
+  if (DateFormat("dd.MM.yy").format(now).toString() == timeEvents[0]) {
+    for (int i = 1; i < timeEvents.length; i++) {
+      String eventTime = timeEvents[i];
+      List<String> timeParts = eventTime.split(':');
 
-        int hour = int.parse(timeParts[0]);
-        int minute = int.parse(timeParts[1]);
-        if (now.hour == hour && now.minute == minute) {
-          String notificationTitle = "Reminder";
-          String notificationBody = "Don't forget the medicines event!";
-          DateTime scheduledTime =
-              DateTime(now.year, now.month, now.day, hour, minute)
-                  .add(Duration(seconds: 3));
-          print(scheduledTime);
-          scheduleNotification(
-              scheduledTime, notificationTitle, notificationBody);
-        }
+      int hour = int.parse(timeParts[0]);
+      int minute = int.parse(timeParts[1]);
+      DateTime eventDateTime = DateTime(now.year, now.month, now.day, hour, minute);
+      if (now.isAfter(eventDateTime) && (i == timeEvents.length - 1 || now.isBefore(DateTime(now.year, now.month, now.day, int.parse(timeEvents[i + 1].split(':')[0]), int.parse(timeEvents[i + 1].split(':')[1]))))) {
+        String notificationTitle = "Reminder";
+        String notificationBody = "Don't forget the medicines event!";
+        DateTime scheduledTime = eventDateTime.add(Duration(seconds: 3));
+        print(scheduledTime);
+        scheduleNotification(scheduledTime, notificationTitle, notificationBody);
       }
     }
   }
+}
 
   void scheduleNotification(DateTime scheduledTime, String notificationTitle,
       String notificationBody) async {
@@ -482,7 +479,7 @@ class _HomePageState extends State<HomePage> {
       final int notificationId = 0; // Unique ID for the notification
       tz.initializeTimeZones(); // Initialize time zone data
       tz.setLocalLocation(tz.getLocation(
-          'Asia/Jerusalem')); // Replace 'YOUR_TIME_ZONE_HERE' with the desired time zone, e.g., 'America/New_York'
+          'India/Kolkata')); // Replace 'YOUR_TIME_ZONE_HERE' with the desired time zone, e.g., 'America/New_York'
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
           AndroidNotificationDetails(
         'reminder_channel_id',
