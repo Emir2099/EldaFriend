@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:medtrack/util/icon1.dart';
+import 'package:medtrack/util/icon2.dart';
+import 'package:medtrack/util/icon3.dart';
+import 'package:medtrack/util/icon4.dart';
 
 class DashPage extends StatefulWidget {
   const DashPage({super.key});
@@ -113,13 +117,73 @@ class _DashPageState extends State<DashPage> {
             // ICONS
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                
+                Column(
+                  children: [
+                    Icon1(),
+                    
+                    SizedBox(
+                      height: 8,
+                      ),
+                      Text(
+                        'AI',
+                        style: TextStyle(color: Colors.white)
+                        ),
+              ],
+            ),
+
+
+            Column(
+                  children: [
+                    Icon2(),
+                    
+                    SizedBox(
+                      height: 8,
+                      ),
+                      Text(
+                        'Water Rem.',
+                        style: TextStyle(color: Colors.white)
+                        ),
+              ],
+            ),
+
+
+
+            Column(
+                  children: [
+                    Icon3(),
+                    
+                    SizedBox(
+                      height: 8,
+                      ),
+                      Text(
+                        'SOS',
+                        style: TextStyle(color: Colors.white)
+                        ),
+              ],
+            ),
+
+
+
+            Column(
+                  children: [
+                    Icon4(),
+                    
+                    SizedBox(
+                      height: 8,
+                      ),
+                      Text(
+                        'Settings',
+                        style: TextStyle(color: Colors.white)
+                        ),
               ],
             ),
             ],
           ),
+        ],
         ),
+      )
       )
     );   
   }
