@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart'; // Add this line to import the 'get' package
+import 'package:medtrack/geminiapi/consts.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -9,6 +10,7 @@ import 'gemini_api.dart';
 bool isButtonPressed = false;
 final promptController = TextEditingController();
 final focusNode = FocusNode();
+bool speaking = false;
 
 class BotHome extends StatefulWidget {
   const BotHome({Key? key}) : super(key: key);
@@ -121,7 +123,9 @@ class _BotHomeState extends State<BotHome> {
               setState(() {
                 isButtonPressed = true;
               });
-              result.value = await GeminiAPI.getGeminiData(textController.text);
+              result.value = (await GeminiAPI.getGeminiData(textController.text)).replaceAll(RegExp(r'\*'), '');
+              speaking = true;
+              await fetchAndSpeak(result.value);
               setState(() {
                 isButtonPressed = false;
               });
@@ -172,14 +176,33 @@ class _BotHomeState extends State<BotHome> {
                                   ),
                   ),
                 ):
-          SingleChildScrollView(
-            child: Text(
-              result.value,
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.black),
-            ),
-          ),
+          Stack(
+  children: [
+    SingleChildScrollView(
+      child: Text(
+        result.value,
+        style: const TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+        ),
+      ),
+    ),
+    Positioned(
+      bottom: 10,
+      right: 10,
+      child: ElevatedButton(
+        child: Text('Stop Speaking'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue[300], // This is the background color
+        ),
+        onPressed: speaking ? () async {
+          await stopSpeaking();
+          speaking = false;
+        } : null,
+      ),
+    ),
+  ],
+)
                 ),
               ),
             ),
