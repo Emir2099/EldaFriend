@@ -9,9 +9,9 @@ import 'package:http/http.dart' as http;
 
 import 'model.dart';
 
-class Settings extends StatefulWidget {
+class settingsSOS extends StatefulWidget {
   @override
-  State<Settings> createState() => _SettingsState();
+  State<settingsSOS> createState() => _SettingsState();
 }
 
 bool showSpinner = false;
@@ -20,7 +20,7 @@ Map<String, Color> _Colors = {
   "blue": Color.fromARGB(255, 92, 107, 192)
 };
 
-class _SettingsState extends State<Settings> {
+class _SettingsState extends State<settingsSOS> {
   model model_x = new model();
 
   @override
@@ -49,7 +49,7 @@ class _SettingsState extends State<Settings> {
         actions: [],
         centerTitle: true,
       ),
-      bottomNavigationBar: model_x.buttomAppBar_app(context),
+      // bottomNavigationBar: model_x.buttomAppBar_app(context),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Container(

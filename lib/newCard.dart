@@ -54,6 +54,7 @@ class _newCardState extends State<newCard> {
                   if (taked == true) {
                     print(widget.dataOfPill);
                     taked = false;
+                    print(widget.dataOfUser['email']);
                     Map<String, dynamic> data = {
                       'medTime': widget.dataOfPill['medTime'],
                       'pillName': widget.dataOfPill['pillName'],
@@ -62,7 +63,8 @@ class _newCardState extends State<newCard> {
                       'pillType': widget.dataOfPill['pillType'].toString(),
                       'pillWeek': widget.dataOfPill['pillWeek'].toString(),
                       'medDate': widget.dataOfPill['medDate'].toString(),
-                      'taked': taked
+                      'taked': taked,
+                      'usermail': widget.dataOfUser['email'],
                     };
 
                     _firestore
@@ -83,7 +85,8 @@ class _newCardState extends State<newCard> {
                       'pillWeek': widget.dataOfPill['pillWeek'].toString(),
                       'medDate': widget.dataOfPill['medDate'].toString(),
                       'taked': taked,
-                      'takedAt': DateFormat.Hm().format(now)
+                      'takedAt': DateFormat.Hm().format(now),
+                      'usermail': widget.dataOfUser['email'],
                     };
 
                     _firestore

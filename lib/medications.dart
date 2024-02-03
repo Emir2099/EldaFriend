@@ -1,15 +1,10 @@
-import 'dart:convert';
-//import 'dart:ffi';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:medtrack/updateSoS.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'model.dart';
 
 class Medications extends StatefulWidget {
@@ -24,7 +19,7 @@ Map<String, Color> _Colors = {
 };
 
 class _MedicationsState extends State<Medications> {
-  List<String> people = ["0502661444"];
+  List<String> people = ["8077309804"];
   model model_x = new model();
   var currentLocation;
   late String lat;
@@ -65,6 +60,13 @@ class _MedicationsState extends State<Medications> {
       });
     }
   }
+  void _sendSMS(String message, List<String> recipents) async {
+ String _result = await sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+print(_result);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class _MedicationsState extends State<Medications> {
         leading: BackButton(),
         centerTitle: true,
       ),
-      bottomNavigationBar: model_x.buttomAppBar_app(context),
+      // bottomNavigationBar: model_x.buttomAppBar_app(context),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Container(
@@ -122,10 +124,10 @@ class _MedicationsState extends State<Medications> {
                       });
                       print(numbers);
                       if (numbers.isNotEmpty) {
-                        sendSMS(
-                            message:
+                          _sendSMS(
+                            
                                 "Emergency! I need help \n https://www.google.com/maps/search/?api=1&query=$lat,$long",
-                            recipients: numbers);
+                             numbers);
                       } else {
                         showDialog(
                             context: context,
@@ -157,6 +159,17 @@ class _MedicationsState extends State<Medications> {
                     style: TextStyle(fontSize: 17),
                   ),
                 ),
+                Center(
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'settingsSOS');
+                    },
+                    icon: Icon(
+                      Icons.settings,
+                      size: 40,
+                    ),
+                  )
+                )
               ],
             )),
       ),

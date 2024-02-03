@@ -55,7 +55,7 @@ class _HistoryState extends State<History> {
     dataOfTakedMed = [];
     await FirebaseFirestore.instance
         .collection('Taked')
-        .where('taked', isEqualTo: true)
+        .where('usermail', isEqualTo: _auth.currentUser!.email).where('taked',isEqualTo: true)
         .get()
         .then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {

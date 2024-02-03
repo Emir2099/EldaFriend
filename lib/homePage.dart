@@ -56,12 +56,13 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       showSpinner = true;
     });
+    print(user?.uid);
     final events =
-        await _firestore.collection('userData').doc(user?.email).get();
+        await _firestore.collection('users').doc(user?.uid).get();
     if (events != null) {
-      print(events['Fullname']);
-      dataOfUser['email'] = user?.email;
-      dataOfUser['name'] = events['Fullname'];
+      print("full name is$events['fullName']");
+      dataOfUser['email'] = events['email'];
+      dataOfUser['name'] = events['fullName'];
     }
     setState(() {
       showSpinner = false;
@@ -165,17 +166,9 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.add_circle_outline),
+                icon: Icon(Icons.history),
                 onPressed: () {
-                  showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => NewMedicine())
-                      .then((result) async {
-                    if (result != null && result == 'refresh') {
-                      // The dialog returned a 'refresh' result, call the function to get the medicines.
-                      await getTheMedicines();
-                    }
-                  });
+                  Navigator.pushNamed(context, 'history');
                 },
               ),
             ],
@@ -282,79 +275,79 @@ class _HomePageState extends State<HomePage> {
           size: 30,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-      bottomNavigationBar: BottomAppBar(
-        height: 50,
-        color: Color.fromARGB(255, 255, 255, 255),
-        shape: CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: 70,
-            ),
-            IconButton(
-              iconSize: 28,
-              icon: Icon(
-                Icons.analytics_outlined,
-                color: _Colors['blue'],
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, 'graphs');
-                // getTheMedicinesData();
-                print("////////////////////---------------");
-                print(meds);
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => graphs(meds),
-                //     ));
-              },
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            IconButton(
-              iconSize: 28,
-              icon: Icon(
-                Icons.history,
-                color: _Colors['blue'],
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, 'history');
-              },
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            IconButton(
-              iconSize: 28,
-              icon: Icon(
-                Icons.medication,
-                color: _Colors['blue'],
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, 'medications');
-              },
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            IconButton(
-              iconSize: 28,
-              icon: Icon(
-                Icons.person_3_outlined,
-                color: _Colors['blue'],
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, 'settings');
-              },
-            ),
-          ],
-        ),
-      ),
+
+      // bottomNavigationBar: BottomAppBar(
+      //   height: 50,
+      //   color: Color.fromARGB(255, 255, 255, 255),
+      //   shape: CircularNotchedRectangle(),
+      //   notchMargin: 5,
+      //   child: Row(
+      //     mainAxisSize: MainAxisSize.min,
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: <Widget>[
+      //       SizedBox(
+      //         width: 70,
+      //       ),
+      //       IconButton(
+      //         iconSize: 28,
+      //         icon: Icon(
+      //           Icons.analytics_outlined,
+      //           color: _Colors['blue'],
+      //         ),
+      //         onPressed: () {
+      //           Navigator.pushNamed(context, 'graphs');
+      //           // getTheMedicinesData();
+      //           print("////////////////////---------------");
+      //           print(meds);
+      //           // Navigator.push(
+      //           //     context,
+      //           //     MaterialPageRoute(
+      //           //       builder: (context) => graphs(meds),
+      //           //     ));
+      //         },
+      //       ),
+      //       SizedBox(
+      //         width: 30,
+      //       ),
+      //       IconButton(
+      //         iconSize: 28,
+      //         icon: Icon(
+      //           Icons.history,
+      //           color: _Colors['blue'],
+      //         ),
+      //         onPressed: () {
+      //           Navigator.pushNamed(context, 'history');
+      //         },
+      //       ),
+      //       SizedBox(
+      //         width: 30,
+      //       ),
+      //       IconButton(
+      //         iconSize: 28,
+      //         icon: Icon(
+      //           Icons.medication,
+      //           color: _Colors['blue'],
+      //         ),
+      //         onPressed: () {
+      //           Navigator.pushNamed(context, 'medications');
+      //         },
+      //       ),
+      //       SizedBox(
+      //         width: 30,
+      //       ),
+      //       IconButton(
+      //         iconSize: 28,
+      //         icon: Icon(
+      //           Icons.person_3_outlined,
+      //           color: _Colors['blue'],
+      //         ),
+      //         onPressed: () {
+      //           Navigator.pushNamed(context, 'settings');
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 

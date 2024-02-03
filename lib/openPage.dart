@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:medtrack/servies/database.dart';
 import 'package:medtrack/worngDialgo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -26,6 +27,7 @@ class _OpenPageState extends State<OpenPage> {
       email: email,
       password: password,
     );
+    
     return userCredential;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
@@ -45,19 +47,19 @@ class _OpenPageState extends State<OpenPage> {
   }
 
   // Check if the user is already logged in
-  Future<bool> isLoggedIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isLoggedIn') ?? false;
-  }
+  // Future<bool> isLoggedIn() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getBool('isLoggedIn') ?? false;
+  // }
 ////////////////////////
   @override
   Widget build(BuildContext context) {
-     // Check if the user is already logged in
-  isLoggedIn().then((loggedIn) {
-    if (loggedIn) {
-      Navigator.pushNamed(context, 'homepage');
-    }
-  });
+    //  Check if the user is already logged in
+  // isLoggedIn().then((loggedIn) {
+  //   if (loggedIn) {
+  //     Navigator.pushNamed(context, 'dashboard');
+  //   }
+  // });
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -260,7 +262,7 @@ class _OpenPageState extends State<OpenPage> {
                                               await saveLoginStatus();
                                               Navigator.pushNamed(
                                                 context,
-                                                'homepage',
+                                                'dashboard',
                                               );
                                             }
                                             setState(() {

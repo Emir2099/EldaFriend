@@ -156,7 +156,7 @@ class _graphsState extends State<graphs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: buttomBar.buttomAppBar_app(context),
+      // bottomNavigationBar: buttomBar.buttomAppBar_app(context),
       appBar: AppBar(
         backgroundColor: _Colors['orange'],
         title: Text('Statistics and analytics'),

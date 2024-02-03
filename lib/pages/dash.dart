@@ -1,10 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medtrack/comunities/screens/home_screen.dart';
+// import 'package:medtrack/Community/screens/home_screen.dart';
+import 'package:medtrack/geminiapi/bot.dart';
+import 'package:medtrack/graphs.dart';
+import 'package:medtrack/helper/helper_function.dart';
+import 'package:medtrack/homePage.dart';
+import 'package:medtrack/medications.dart';
+import 'package:medtrack/newCard.dart';
+import 'package:medtrack/openPage.dart';
+import 'package:medtrack/servies/auth.dart';
+import 'package:medtrack/settingsSOS.dart';
 import 'package:medtrack/util/functions_tile.dart';
 import 'package:medtrack/util/icon1.dart';
 import 'package:medtrack/util/icon2.dart';
 import 'package:medtrack/util/icon3.dart';
 import 'package:medtrack/util/icon4.dart';
-import 'package:flutter/src/material/list_tile.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 class DashPage extends StatefulWidget {
   const DashPage({Key? key}) : super(key: key);
@@ -13,44 +28,60 @@ class DashPage extends StatefulWidget {
   State<DashPage> createState() => _DashPageState();
 }
 
+
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+bool showSpinner = false;
+Map<String, dynamic> dataOfUser = {};
+
+
+ const _backgroundColor = Color.fromARGB(255, 255, 255, 255);
+
+const _colors = [
+    Color(0xFFFEE440),
+    Color.fromARGB(255, 52, 219, 19),
+];
+
+const _durations = [
+    5000,
+    4000,
+];
+
+const _heightPercentages = [
+    0.45,
+    0.46,
+];
+
 class _DashPageState extends State<DashPage> {
+void initState() {
+    // TODO: implement initState
+    getDataOfUser();
+     //////////////test
+    super.initState();
+  }
+
+
+
+  void getDataOfUser() async {
+    setState(() {
+      showSpinner = true;
+    });
+    print(user?.uid);
+    final events =
+        await _firestore.collection('users').doc(user?.uid).get();
+    if (events != null) {
+      dataOfUser['email'] = events['email'];
+      dataOfUser['name'] = events['fullName'];
+    }
+    setState(() {
+      showSpinner = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.blue[800],
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: SizedBox(
-      //         width: 24,
-      //         child: Icon(Icons.home, color: Colors.blue), // Set default color here
-      //       ),
-      //       label: '',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: SizedBox(
-      //         width: 24,
-      //         child: Icon(Icons.calendar_today, color: Colors.blue), // Set default color here
-      //       ),
-      //       label: '',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: SizedBox(
-      //         width: 24,
-      //         child: Icon(Icons.person, color: Colors.blue), // Set default color here
-      //       ),
-      //       label: '',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: SizedBox(
-      //         width: 24,
-      //         child: Icon(Icons.settings, color: Colors.blue), // Set default color here
-      //       ),
-      //       label: '',
-      //     ),
-      //   ],
-      // ),
-
       body: SafeArea(
         child: Column(
           children: [
@@ -63,7 +94,7 @@ class _DashPageState extends State<DashPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hi Emir!',
+                        (dataOfUser['name']).toString(),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -74,7 +105,7 @@ class _DashPageState extends State<DashPage> {
                         height: 8,
                       ),
                       Text(
-                        '23 Jan, 2024',
+                        ("${DateTime.now().day}-"+"${DateTime.now().month}-"+"${DateTime.now().year}"),
                         style: TextStyle(color: Colors.blue[100]),
                       ),
                     ],
@@ -84,28 +115,38 @@ class _DashPageState extends State<DashPage> {
                   padding: const EdgeInsets.only(right: 25.0),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12.0),
-                    // child: Container(
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.blue[600],
-                    //     borderRadius: BorderRadius.circular(12),
-                    //   ),
                     child: Card(
-        
-        elevation: 5.0, // Change this value to adjust the elevation
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
-        ),
-                      // padding: EdgeInsets.all(12),
+                      elevation: 5.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: Container(
                         decoration: BoxDecoration(
-                       color: Colors.blue[600],
-                       borderRadius: BorderRadius.circular(12),
+                          color: Colors.blue[600],
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Icon(
-                            Icons.notifications,
-                            color: Colors.white,
+                          child: 
+                          GestureDetector(
+                            onTap: () {
+                              Auth().signoutUser().whenComplete(() async {
+                  await HelperFunction
+                      .saveUserLoggedInStatusToSharedPreferences(false);
+                  await HelperFunction.saveUsernameToSharedPreferences("");
+                  await HelperFunction.saveUserEmailToSharedPreferences("");
+                  Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>  OpenPage(),
+      ),
+    );
+                });
+                            },
+                            child: Icon(
+                              Icons.notifications,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -118,29 +159,28 @@ class _DashPageState extends State<DashPage> {
               height: 25,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+              padding: const EdgeInsets.only(left: 5.0, right: 5.0),
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue[600],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: EdgeInsets.all(12),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      'Search',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+                height: 40,
+                    width: double.infinity,
+                child: Card(
+                  elevation: 12.0,
+                      margin: EdgeInsets.only(
+                          right: 10, left: 10, bottom: 16.0),
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(16.0))),
+              
+                  child: WaveWidget(
+                  config: CustomConfig(
+                      colors: _colors,
+                      durations: _durations,
+                      heightPercentages: _heightPercentages,
+                  ),
+                  backgroundColor: _backgroundColor,
+                  size: Size(double.infinity, double.infinity),
+                  waveAmplitude: 0.1,
+                                ),
                 ),
               ),
             ),
@@ -175,7 +215,15 @@ class _DashPageState extends State<DashPage> {
               children: [
                 Column(
                   children: [
-                    Icon1(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => BotHome()),
+                        );
+                      },
+                      child: Icon1(),
+                    ),
                     SizedBox(
                       height: 8,
                     ),
@@ -184,7 +232,15 @@ class _DashPageState extends State<DashPage> {
                 ),
                 Column(
                   children: [
-                    Icon2(),
+                    GestureDetector(
+                     onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => BotHome()),
+                        );
+                      },
+                    child: Icon2(),
+                    ),
                     SizedBox(
                       height: 8,
                     ),
@@ -193,7 +249,15 @@ class _DashPageState extends State<DashPage> {
                 ),
                 Column(
                   children: [
-                    Icon3(),
+                     GestureDetector(
+                     onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Medications()),
+                        );
+                      },
+                    child: Icon3(),
+                     ),
                     SizedBox(
                       height: 8,
                     ),
@@ -217,161 +281,143 @@ class _DashPageState extends State<DashPage> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
                   ),
                 ),
                 padding: EdgeInsets.all(25),
-                // color: Colors.grey[300],
                 child: Center(
                   child: Column(
                     children: [
-                      // MAIN Functions heading
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children:[
-                      Text(
-                        'Main Functionalities',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        )),
-                      Icon(Icons.more_horiz),
-                        ]
+                        children: [
+                          Text(
+                            'Main Functionalities',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Icon(Icons.more_horiz),
+                        ],
                       ),
-
                       SizedBox(
                         height: 20,
                       ),
-                      // Listview of Main Functions
-
                       Expanded(
-  child: ListView(
-    children: [
-      InkWell(
-      onTap: () {
-      
-      },
-      child: Card(
-        
-        elevation: 3.0, // Change this value to adjust the elevation
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
-        ),
-        // decoration: BoxDecoration(
-        //   border: Border.all(
-        //     color: Colors.black, // Change this color to change the border color
-        //     width: 0.2, // Change this value to change the border width
-        //   ),
-        //   borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical:1.0),
-          child: FunctionTile(
-            icon: Icons.switch_account,
-            functionName: 'Switch Mode',
-            functionSub: 'Hop to Elder Friendly interface',
-            color: Colors.lime[300],
-          ),
-        ),
+                        child: ListView(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                 Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BotHome()),
+    );
+                              },
+                              child: Card(
+                                elevation: 3.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 1.0),
+                                  child: FunctionTile(
+                                    icon: Icons.switch_account,
+                                    functionName: 'Switch Mode',
+                                    functionSub:
+                                        'Elder Friendly Interface',
+                                    color: Colors.lime[300],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                 Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+                              },
+                              child: Card(
+                                elevation: 3.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 1.0),
+                                  child: FunctionTile(
+                                    icon: Icons.medication_liquid_rounded,
+                                    functionName: 'Medicine Reminder',
+                                    functionSub: "Don't miss a dose",
+                                    color: Colors.green[300],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                 Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => graphs()),
+    );
+                              },
+                              child: Card(
+                                elevation: 3.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 1.0),
+                                  child: FunctionTile(
+                                    icon: Icons.insert_chart_outlined_rounded,
+                                    functionName: 'View Reports',
+                                    functionSub: 'Detailed Analytics',
+                                    color: Colors.pink[300],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                 Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
       ),
-      ),
-
-      SizedBox(
-      height: 10,
-    ),
-
-    InkWell(
-      onTap: () {
-      
-      },
-      child: Card(
-        elevation: 3.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical:1.0),
-          child: FunctionTile(
-            icon: Icons.medication_liquid_rounded,
-            functionName: 'Medication Reminder',
-            functionSub: 'Set up medicine notifications',
-            color: Colors.green[300],
-          ),
-        ),
-      ),
-    ),
-
-       SizedBox(
-        height: 10,
-      ),
-
-      InkWell(
-      onTap: () {
-      
-      },
-       child: Card(
-        
-        elevation: 3.0, // Change this value to adjust the elevation
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
-        ),
-      // Container(
-      //   decoration: BoxDecoration(
-      //     border: Border.all(
-      //       color: Colors.black, // Change this color to change the border color
-      //       width: 0.2, // Change this value to change the border width
-      //     ),
-      //     borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
-      //   ),
-        child: Padding(
-         padding: EdgeInsets.symmetric(vertical:1.0),
-          child: FunctionTile(
-            icon: Icons.insert_chart_outlined_rounded,
-            functionName: 'View Reports',
-            functionSub: 'Detailed Analytics',
-            color: Colors.pink[300],
-          ),
-        ),
-      ),
-      ),
-
-       SizedBox(
-        height: 10,
-      ),
-
-      InkWell(
-      onTap: () {
-      
-      },
-       child: Card(
-        elevation: 3.0, // Change this value to adjust the elevation
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
-        ),
-      // Container(
-      //   decoration: BoxDecoration(
-      //     border: Border.all(
-      //       color: Colors.black, // Change this color to change the border color
-      //       width: 0.2, // Change this value to change the border width
-      //     ),
-      //     borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
-      //   ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical:1.0),
-          child: FunctionTile(
-            icon: Icons.mark_chat_unread_rounded,
-            functionName: 'Communities',
-            functionSub: 'Interact with people to know more',
-            color: Colors.purple[300],
-          ),
-        ),
-       ),
-      ),
-    ],
-  ),
-)
+    );
+                              },
+                              child: Card(
+                                elevation: 3.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 1.0),
+                                  child: FunctionTile(
+                                    icon: Icons.mark_chat_unread_rounded,
+                                    functionName: 'Communities',
+                                    functionSub:
+                                        'Interact with people ',
+                                    color: Colors.purple[300],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

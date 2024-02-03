@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medtrack/servies/database.dart';
 import 'package:medtrack/worngDialgo.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -291,12 +292,13 @@ class _MyRegisterState extends State<MyRegister> {
                                                     email: email,
                                                     password: password);
                                             if (newUser != null) {
-                                              await _firestore
-                                                  .collection("userData")
-                                                  .doc(email)
-                                                  .set({
-                                                'Fullname': Fullname,
-                                              });
+                                              // await _firestore
+                                              //     .collection("userData")
+                                              //     .doc(email)
+                                              //     .set({
+                                              //   'Fullname': Fullname,
+                                              // });
+                                              await Database(uid: newUser.user!.uid).updateUserData(Fullname, email);
                                             }
 
                                             showDialog<String>(

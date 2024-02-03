@@ -1,5 +1,5 @@
-import 'dart:convert';
-import 'dart:ffi';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,9 +45,22 @@ class _NewMedicineState extends State<NewMedicine> {
   @override
   void initState() {
     // TODO: implement initState
-
+ 
     super.initState();
   }
+  // Future<void> soundmaker()async {
+// await AwesomeNotifications().initialize(null, [
+//     NotificationChannel(
+//       channelGroupKey: "basic_channel_group",
+//       channelKey: "basic_channel",
+//       channelName: "Basic Notification",
+//       channelDescription: "Basic notifications channel",
+//       importance: NotificationImportance.Max,
+//       playSound: true,
+//       enableVibration: true,
+//     )
+//   ]);
+  // }
 
   void medicineTypeClick(MedicineType medicine) {
     setState(() {
@@ -372,6 +385,31 @@ class _NewMedicineState extends State<NewMedicine> {
                           setState(() {
                             showSpinner = true;
                           });
+//                           print("Year${setDate.year}");
+//   print("Month${setDate.month}");
+//   print("Day${setDate.day}");
+//   print("Hour${setDate.hour}");
+//   print("Minute${setDate.minute}");
+//   print("Second${setDate.second}");
+//  await soundmaker();
+//         AwesomeNotifications().createNotification(
+//     content: NotificationContent(
+//       id: 1,
+//       channelKey: "basic_channel",
+//       title: "Hello world!",
+//       body: "Yay! I have midici notifications working now!",
+//     ),
+//     schedule: NotificationCalendar(
+//       year: setDate.year,
+//       month: setDate.month,
+//       day: setDate.day,
+//       hour: setDate.hour,
+//       minute: setDate.minute,
+//       second: 0,
+//       millisecond: 0,
+//       repeats: false,
+//     ),
+//   );
                           if (!_formkey.currentState!.validate()) {
                             return;
                           }
@@ -418,8 +456,6 @@ class _NewMedicineState extends State<NewMedicine> {
           value != null ? value.hour : setDate.hour,
           value != null ? value.minute : setDate.minute);
       setState(() => setDate = newDate);
-      print(newDate.hour);
-      print(newDate.minute);
     });
   }
 
