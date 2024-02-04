@@ -38,8 +38,14 @@ User? user = _auth.currentUser;
 bool showSpinner = false;
 Map<String, dynamic> dataOfUser = {};
 List<dynamic> dataOfTakedMed = [];
-bool _isPressed = false;
-
+  bool _isPressed1 = false;
+  bool _isPressed2 = false;
+  bool _isPressed3 = false;
+  bool _isPressed4 = false;
+  bool _isPressedB1 = false;
+  bool _isPressedB2 = false;
+  bool _isPressedB3 = false;
+  bool _isPressedB4 = false;
 
  const _backgroundColor = Color.fromARGB(255, 255, 255, 255);
 
@@ -325,32 +331,31 @@ void initState() {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                Column(
-          children: [
-            GestureDetector(
-              onTapDown: (details){
-                setState(() {
-                  _isPressed = true;
-                });
-              },
-              onTapUp: (details){
-                
-                setState(() {
-                  _isPressed = false;
-                });
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BotHome()),
-                );
-              },
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 500), // increased duration
-                curve: Curves.easeOut,
-                child: Transform.translate(
-                  offset: Offset(0, _isPressed ? 10 : 0),
-                  child: Icon1(),
+              children: [
+                GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      _isPressed1 = true;
+                    });
+                  },
+                  onTapUp: (details) {
+                    setState(() {
+                      _isPressed1 = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BotHome()),
+                    );
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 1000),
+                    curve: Curves.easeOut,
+                    child: Transform.translate(
+                      offset: Offset(0, _isPressed1 ? 10 : 0),
+                      child: Icon1(), // replace with your Icon1
+                    ),
+                  ),
                 ),
-              ),
-            ),
             SizedBox(
               height: 8,
             ),
@@ -358,48 +363,101 @@ void initState() {
           ],
         ),
                 Column(
-                  children: [
-                    GestureDetector(
-                     onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BotHome()),
-                        );
-                      },
-                    child: Icon2(),
+              children: [
+                GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      _isPressed2 = true;
+                    });
+                  },
+                  onTapUp: (details) {
+                    setState(() {
+                      _isPressed2 = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BotHome()),
+                    );
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 5000),
+                    curve: Curves.easeOut,
+                    child: Transform.translate(
+                      offset: Offset(0, _isPressed2 ? 10 : 0),
+                      child: Icon2(), // replace with your Icon2
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text('Water Rem.', style: TextStyle(color: Colors.white)),
-                  ],
+                  ),
                 ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text('Water Rem.', style: TextStyle(color: Colors.white)),
+              ],
+            ),
+                        Column(
+              children: [
+                GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      _isPressed3 = true;
+                    });
+                  },
+                  onTapUp: (details) {
+                    setState(() {
+                      _isPressed3 = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Medications()),
+                    );
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 1000),
+                    curve: Curves.easeOut,
+                    child: Transform.translate(
+                      offset: Offset(0, _isPressed3 ? 10 : 0),
+                      child: Icon3(), // replace with your Icon3
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text('SOS', style: TextStyle(color: Colors.white)),
+              ],
+            ),
                 Column(
-                  children: [
-                     GestureDetector(
-                     onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Medications()),
-                        );
-                      },
-                    child: Icon3(),
-                     ),
-                    SizedBox(
-                      height: 8,
+              children: [
+                GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      _isPressed4 = true;
+                    });
+                  },
+                  onTapUp: (details) {
+                    setState(() {
+                      _isPressed4 = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BotHome()),
+                    );
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 5000),
+                    curve: Curves.easeOut,
+                    child: Transform.translate(
+                      offset: Offset(0, _isPressed4 ? 10 : 0),
+                      child: Icon4(), // replace with your Icon2
                     ),
-                    Text('SOS', style: TextStyle(color: Colors.white)),
-                  ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Icon4(),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text('Settings', style: TextStyle(color: Colors.white)),
-                  ],
+                SizedBox(
+                  height: 8,
                 ),
+                Text('Settings', style: TextStyle(color: Colors.white)),
+              ],
+            ),
               ],
             ),
             SizedBox(
@@ -437,111 +495,157 @@ void initState() {
                       Expanded(
                         child: ListView(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                 Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => BotHome()),
-    );
-                              },
-                              child: Card(
-                                elevation: 3.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 1.0),
-                                  child: FunctionTile(
-                                    icon: Icons.switch_account,
-                                    functionName: 'Switch Mode',
-                                    functionSub:
-                                        'Elder Friendly Interface',
-                                    color: Colors.lime[300],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                 Navigator.push(
+                            GestureDetector(
+  onTapDown: (details) {
+    setState(() {
+      _isPressedB1 = true;
+    });
+  },
+  onTapUp: (details) {
+    setState(() {
+      _isPressedB1 = false;
+    });
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HomePage()),
     );
-                              },
-                              child: Card(
-                                elevation: 3.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 1.0),
-                                  child: FunctionTile(
-                                    icon: Icons.medication_liquid_rounded,
-                                    functionName: 'Medicine Reminder',
-                                    functionSub: "Don't miss a dose",
-                                    color: Colors.green[300],
-                                  ),
-                                ),
-                              ),
-                            ),
+  },
+  child: AnimatedContainer(
+    duration: Duration(milliseconds: 200),
+    curve: Curves.easeOut,
+    child: Transform.translate(
+      offset: Offset(0, _isPressedB1 ? 10 : 0),
+      child: Card(
+        elevation: _isPressedB1 ? 0 : 3.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.0),
+          child: FunctionTile(
+            icon: Icons.switch_account,
+            functionName: 'Switch Mode',
+            functionSub: 'Elder Friendly Interface',
+            color: Colors.lime[300],
+          ),
+        ),
+      ),
+    ),
+  ),
+),
                             SizedBox(
                               height: 10,
                             ),
-                            InkWell(
-                              onTap: () {
-                                 Navigator.push(
+                            GestureDetector(
+  onTapDown: (details) {
+    setState(() {
+      _isPressedB2 = true;
+    });
+  },
+  onTapUp: (details) {
+    setState(() {
+      _isPressedB2 = false;
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  },
+  child: Transform.translate(
+    offset: Offset(0, _isPressedB2 ? 10 : 0),
+    child: Card(
+      elevation: _isPressedB2 ? 0 : 3.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 1.0),
+        child: FunctionTile(
+          icon: Icons.medication_liquid_rounded,
+          functionName: 'Medicine Reminder',
+          functionSub: "Don't miss a dose",
+          color: Colors.green[300],
+        ),
+      ),
+    ),
+  ),
+),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            GestureDetector(
+  onTapDown: (details) {
+    setState(() {
+      _isPressedB3 = true;
+    });
+  },
+  onTapUp: (details) {
+    setState(() {
+      _isPressedB3 = false;
+    });
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => graphs()),
     );
-                              },
-                              child: Card(
-                                elevation: 3.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 1.0),
-                                  child: FunctionTile(
-                                    icon: Icons.insert_chart_outlined_rounded,
-                                    functionName: 'View Reports',
-                                    functionSub: 'Detailed Analytics',
-                                    color: Colors.pink[300],
-                                  ),
-                                ),
-                              ),
-                            ),
+  },
+  child: Transform.translate(
+    offset: Offset(0, _isPressedB3 ? 10 : 0),
+    child: Card(
+      elevation: _isPressedB3 ? 0 : 3.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 1.0),
+        child: FunctionTile(
+          icon: Icons.insert_chart_outlined_rounded,
+          functionName: 'View Reports',
+          functionSub: 'Detailed Analytics',
+          color: Colors.pink[300],
+        ),
+      ),
+    ),
+  ),
+),
                             SizedBox(
                               height: 10,
                             ),
-                            InkWell(
-                              onTap: () {
-                                 Navigator.push(
+                            GestureDetector(
+  onTapDown: (details) {
+    setState(() {
+      _isPressedB4 = true;
+    });
+  },
+  onTapUp: (details) {
+    setState(() {
+      _isPressedB4 = false;
+    });
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => const HomeScreen(),
       ),
     );
-                              },
-                              child: Card(
-                                elevation: 3.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 1.0),
-                                  child: FunctionTile(
-                                    icon: Icons.mark_chat_unread_rounded,
-                                    functionName: 'Communities',
-                                    functionSub:
-                                        'Interact with people ',
-                                    color: Colors.purple[300],
-                                  ),
-                                ),
-                              ),
-                            ),
+  },
+  child: Transform.translate(
+    offset: Offset(0, _isPressedB4 ? 10 : 0),
+    child: Card(
+      elevation: _isPressedB4 ? 0 : 3.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 1.0),
+        child: FunctionTile(
+          icon: Icons.mark_chat_unread_rounded,
+          functionName: 'Communities',
+          functionSub: 'Interact with people',
+          color: Colors.purple[300],
+        ),
+      ),
+    ),
+  ),
+),
                           ],
                         ),
                       ),
