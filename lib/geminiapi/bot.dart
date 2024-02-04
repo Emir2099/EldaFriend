@@ -1,4 +1,7 @@
 //GEMINI API
+import 'dart:convert';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart'; // Add this line to import the 'get' package
@@ -43,6 +46,19 @@ class _BotHomeState extends State<BotHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[800],
+      floatingActionButton:speaking? FloatingActionButton(
+        child: Icon(Icons.volume_off),
+        // style: ElevatedButton.styleFrom(
+        //   backgroundColor: Colors.blue[300], // This needed to be fixed
+        // ),
+        backgroundColor: Colors.blue[300],
+        onPressed: () async {
+          await stopSpeaking();
+          setState(() {
+            speaking = false;
+          });
+        }
+      ): null,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 25.0),
@@ -178,39 +194,35 @@ class _BotHomeState extends State<BotHome> {
                 ):
           Stack(
   children: [
-    SingleChildScrollView(
-      child: Text(
-        result.value,
-        style: const TextStyle(
-          fontSize: 20,
-          color: Colors.black,
-        ),
-      ),
-    ),
     Positioned(
-      bottom: 10,
-      right: 10,
-      child: ElevatedButton(
-        child: Text('Stop Speaking'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue[300], // This needed to be fixed
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
+              result.value,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+            
+          ],
         ),
-        onPressed: speaking ? () async {
-          await stopSpeaking();
-          speaking = false;
-        } : null,
       ),
     ),
+    
   ],
-)
+),
                 ),
               ),
             ),
           ),
+          
             ],
           ),
         ),
       ),
+      
     );
   }
 }

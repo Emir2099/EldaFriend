@@ -12,6 +12,7 @@ class newCard extends StatefulWidget {
   var dataOfPill;
   final Function(String) isDelete;
   newCard(this.dataOfUser, this.dataOfPill, this.isDelete, {super.key});
+
   Map<String, Color> _Colors = {
     "orange": Color.fromARGB(255, 231, 146, 71),
     "blue": Color.fromARGB(255, 92, 107, 192)
@@ -27,7 +28,32 @@ User? user = _auth.currentUser;
 
 class _newCardState extends State<newCard> {
   Offset? _tapPosition;
-  bool taked = false;
+  bool _taked = false;
+
+  @override
+  void initState() {
+    _getTakedValue();
+    super.initState();
+  }  
+
+  void _getTakedValue() async {
+  var docRef = _firestore
+      .collection("Taked")
+      .doc(widget.dataOfPill['medTime'].toString() +
+          "-" +
+          widget.dataOfPill['medDate'].toString());
+
+  var docSnapshot = await docRef.get();
+
+  if (docSnapshot.exists) {
+    Map<String, dynamic>? data = docSnapshot.data();
+    bool taked = data?['taked'] ?? false;
+
+    setState(() {
+      _taked = taked;
+    });
+  }
+}                          
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,9 +77,9 @@ class _newCardState extends State<newCard> {
               onDoubleTap: () {
                 DateTime now = DateTime.now();
                 setState(() {
-                  if (taked == true) {
+                  if (_taked == true) {
                     print(widget.dataOfPill);
-                    taked = false;
+                    _taked = false;
                     print(widget.dataOfUser['email']);
                     Map<String, dynamic> data = {
                       'medTime': widget.dataOfPill['medTime'],
@@ -63,7 +89,7 @@ class _newCardState extends State<newCard> {
                       'pillType': widget.dataOfPill['pillType'].toString(),
                       'pillWeek': widget.dataOfPill['pillWeek'].toString(),
                       'medDate': widget.dataOfPill['medDate'].toString(),
-                      'taked': taked,
+                      'taked': _taked,
                       'usermail': widget.dataOfUser['email'],
                     };
 
@@ -74,7 +100,7 @@ class _newCardState extends State<newCard> {
                             widget.dataOfPill['medDate'].toString())
                         .set(data);
                   } else {
-                    taked = true;
+                    _taked = true;
 
                     Map<String, dynamic> data = {
                       'medTime': widget.dataOfPill['medTime'],
@@ -84,7 +110,7 @@ class _newCardState extends State<newCard> {
                       'pillType': widget.dataOfPill['pillType'].toString(),
                       'pillWeek': widget.dataOfPill['pillWeek'].toString(),
                       'medDate': widget.dataOfPill['medDate'].toString(),
-                      'taked': taked,
+                      'taked': _taked,
                       'takedAt': DateFormat.Hm().format(now),
                       'usermail': widget.dataOfUser['email'],
                     };
@@ -108,7 +134,7 @@ class _newCardState extends State<newCard> {
                   gradient: LinearGradient(
                     colors: [
                       Color.fromARGB(255, 255, 255, 255), // First color
-                      !taked
+                      !_taked
                           ? Color.fromARGB(255, 231, 146, 71)
                           : Colors.cyan, // Second color
                     ],
