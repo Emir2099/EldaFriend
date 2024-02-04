@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:medtrack/Medicins/newMed.dart';
 import 'package:medtrack/graphs.dart';
 import 'package:medtrack/newCard.dart';
@@ -230,6 +231,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 10,
                 ),
+                
                 medInDate.length == 0
                     ? noPill(context)
                     : Expanded(
@@ -243,10 +245,12 @@ class _HomePageState extends State<HomePage> {
                               if (isDelete == 'refresh') {
                                 await getTheMedicines();
                               }
+                              
                             }
 
                             Map<String, dynamic> medicineData =
                                 medInDate[index];
+                                print("this is lengthhhhhhhhh${medInDate.length}");
                             return newCard(
                                 dataOfUser, medInDate[index], isDelete);
                           },

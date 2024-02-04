@@ -18,11 +18,15 @@ import 'package:medtrack/util/icon1.dart';
 import 'package:medtrack/util/icon2.dart';
 import 'package:medtrack/util/icon3.dart';
 import 'package:medtrack/util/icon4.dart';
+import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 
 class DashPage extends StatefulWidget {
   const DashPage({Key? key}) : super(key: key);
+  
 
   @override
   State<DashPage> createState() => _DashPageState();
@@ -34,6 +38,8 @@ final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
 bool showSpinner = false;
 Map<String, dynamic> dataOfUser = {};
+List<dynamic> dataOfTakedMed = [];
+bool _isPressed = false;
 
 
  const _backgroundColor = Color.fromARGB(255, 255, 255, 255);
@@ -54,13 +60,79 @@ const _heightPercentages = [
 ];
 
 class _DashPageState extends State<DashPage> {
+  
+  DateTime selectedDay = DateTime.now();
 void initState() {
     // TODO: implement initState
     getDataOfUser();
      //////////////test
+     getTheMedicines();
+    getTheTakedMedicines();
     super.initState();
   }
+  Future<void> getTheMedicines() async {
+    setState(() {
+      showSpinner = true;
+    });
 
+    await FirebaseFirestore.instance
+        .collection('medicines')
+        .doc(user!.email)
+        .collection('dates')
+        .doc(DateFormat("dd.MM.yy").format(selectedDay))
+        .collection('medicinesList')
+        .get()
+        .then((querySnapshot) {
+      List<Map<String, dynamic>> dataList = [];
+      List<String> Events = [];
+      Events.add(DateFormat("dd.MM.yy").format(selectedDay));
+      querySnapshot.docs.forEach((doc) {
+        dataList.add(doc.data());
+        Events.add(doc.data()['medTime'].toString());
+      });
+      dataList.sort((a, b) => a["medTime"].compareTo(b["medTime"]));
+      print(dataList);
+      print(timeEvents);
+      medInDate = dataList;
+      timeEvents = Events;
+
+      setState(() {
+        showSpinner = false;
+      });
+    }).catchError((error) {
+      print("Error getting documents: $error");
+      setState(() {
+        showSpinner = false;
+      });
+    });
+  }
+
+  Future<void> getTheTakedMedicines() async {
+    setState(() {
+      showSpinner = true;
+    });
+    dataOfTakedMed = [];
+    await FirebaseFirestore.instance
+        .collection('Taked')
+        .where('usermail', isEqualTo: _auth.currentUser!.email).where('taked',isEqualTo: true)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        dataOfTakedMed.add(doc.data());
+      });
+      dataOfTakedMed.sort((a, b) => b["medDate"].compareTo(a["medDate"]));
+      dataOfTakedMed.sort((a, b) => b["takedAt"].compareTo(a["takedAt"]));
+      print(dataOfTakedMed[1]);
+      setState(() {
+        showSpinner = false;
+      });
+    }).catchError((error) {
+      print("Error getting documents: $error");
+      setState(() {
+        showSpinner = false;
+      });
+    });
+  }
 
 
   void getDataOfUser() async {
@@ -94,8 +166,8 @@ void initState() {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        (dataOfUser['name']).toString(),
+                      Text('Hi '+
+                        (dataOfUser['name']).toString()+"!",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -106,9 +178,9 @@ void initState() {
                         height: 8,
                       ),
                       Text(
-                        ("${DateTime.now().day}-"+"${DateTime.now().month}-"+"${DateTime.now().year}"),
-                        style: TextStyle(color: Colors.blue[100]),
-                      ),
+  DateFormat('d MMMM yyyy').format(DateTime.now()),
+  style: TextStyle(color: Colors.blue[100]),
+),
                     ],
                   ),
                 ),
@@ -160,31 +232,70 @@ void initState() {
               height: 25,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Container(
-                height: 40,
-                    width: double.infinity,
-                child: Card(
-                  elevation: 12.0,
-                      margin: EdgeInsets.only(
-                          right: 10, left: 10, bottom: 16.0),
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              
-                  child: WaveWidget(
-                  config: CustomConfig(
-                      colors: _colors,
-                      durations: _durations,
-                      heightPercentages: _heightPercentages,
-                  ),
-                  backgroundColor: _backgroundColor,
-                  size: Size(double.infinity, double.infinity),
-                  waveAmplitude: 0.1,
-                                ),
-                ),
-              ),
+  padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+  child: Container(
+    height: 40,
+    width: double.infinity,
+    child: Card(
+      elevation: 12.0,
+      margin: EdgeInsets.only(right: 10, left: 10, bottom: 16.0),
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0))),
+      child: SimpleAnimationProgressBar(
+        height: 30,
+        width: 300,
+        backgroundColor: Colors.grey.shade800,
+        foregrondColor: Color.fromARGB(255, 26, 233, 8),
+        ratio: dataOfTakedMed.length / medInDate.length, // calculate the ratio
+        direction: Axis.horizontal,
+        curve: Curves.fastLinearToSlowEaseIn,
+        duration: const Duration(seconds: 3),
+        borderRadius: BorderRadius.circular(10),
+        gradientColor: const LinearGradient(
+          colors: [Colors.pink, Colors.purple]
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.pink,
+            offset: Offset(
+              5.0,
+              5.0,
             ),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+          ),
+        ],
+      ),
+    ),
+  ),
+),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+            //   child: Container(
+            //     height: 40,
+            //         width: double.infinity,
+            //     child: Card(
+            //       elevation: 12.0,
+            //           margin: EdgeInsets.only(
+            //               right: 10, left: 10, bottom: 16.0),
+            //           clipBehavior: Clip.antiAlias,
+            //           shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.all(Radius.circular(16.0))),
+              
+            //       child: WaveWidget(
+            //       config: CustomConfig(
+            //           colors: _colors,
+            //           durations: _durations,
+            //           heightPercentages: _heightPercentages,
+            //       ),
+            //       backgroundColor: _backgroundColor,
+            //       size: Size(double.infinity, double.infinity),
+            //       waveAmplitude: 0.1,
+            //                     ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: 25,
             ),
@@ -214,23 +325,39 @@ void initState() {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BotHome()),
-                        );
-                      },
-                      child: Icon1(),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text('AI', style: TextStyle(color: Colors.white)),
-                  ],
+               Column(
+          children: [
+            GestureDetector(
+              onTapDown: (details){
+                setState(() {
+                  _isPressed = true;
+                });
+              },
+              onTapUp: (details){
+                
+                setState(() {
+                  _isPressed = false;
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BotHome()),
+                );
+              },
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 500), // increased duration
+                curve: Curves.easeOut,
+                child: Transform.translate(
+                  offset: Offset(0, _isPressed ? 10 : 0),
+                  child: Icon1(),
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text('AI', style: TextStyle(color: Colors.white)),
+          ],
+        ),
                 Column(
                   children: [
                     GestureDetector(
