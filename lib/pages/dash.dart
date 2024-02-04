@@ -22,7 +22,6 @@ import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 
 class DashPage extends StatefulWidget {
   const DashPage({Key? key}) : super(key: key);
