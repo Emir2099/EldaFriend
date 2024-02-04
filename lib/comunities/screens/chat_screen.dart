@@ -53,6 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     admin = await Database(uid: FirebaseAuth.instance.currentUser!.uid)
         .getGroupAdmin(widget.groupid);
+        print("This is addddddddmin$admin");
     admin = extractAdminName(admin);
   }
 

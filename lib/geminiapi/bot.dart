@@ -193,7 +193,7 @@ class _BotHomeState extends State<BotHome> {
       child: ElevatedButton(
         child: Text('Stop Speaking'),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue[300], // This is the background color
+          backgroundColor: Colors.blue[300], // This needed to be fixed
         ),
         onPressed: speaking ? () async {
           await stopSpeaking();

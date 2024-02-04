@@ -22,6 +22,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+User? user = _auth.currentUser;
+
 class _HomeScreenState extends State<HomeScreen> {
 // Controllers
   final TextEditingController _groupNameController = TextEditingController();
@@ -92,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void createGroup() async {
     Navigator.pop(context);
     if (_groupNameController.text != "") {
+      print("THis is usernnnaammmmeee$username");
       final Map newGroupStatus =
           await Database(uid: FirebaseAuth.instance.currentUser!.uid)
               .createGroup(_groupNameController.text,
@@ -176,11 +181,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getUserData() async {
-    HelperFunction.getUsernameFromSharedPreferences().then((value) {
+
+    final events =
+        await _firestore.collection('users').doc(user?.uid).get();
+    if (events != null) {
+      
       setState(() {
-        username = value!;
+        username = events['fullName'];
       });
-    });
+    }
+    // HelperFunction.getUsernameFromSharedPreferences().then((value) {
+    //   setState(() {
+    //     username = value!;
+    //   });
+    // });
     HelperFunction.getUserEmailFromSharedPreferences().then((value) {
       setState(() {
         email = value!;

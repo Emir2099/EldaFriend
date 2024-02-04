@@ -146,6 +146,7 @@ class _graphsState extends State<graphs> {
               fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
         );
         color_indx++;
+        color_indx = color_indx % primaryColors.length;
         bie_data.add(temp);
       },
     );

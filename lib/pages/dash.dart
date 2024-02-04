@@ -9,7 +9,7 @@ import 'package:medtrack/graphs.dart';
 import 'package:medtrack/helper/helper_function.dart';
 import 'package:medtrack/homePage.dart';
 import 'package:medtrack/medications.dart';
-import 'package:medtrack/newCard.dart';
+// import 'package:medtrack/newCard.dart';
 import 'package:medtrack/openPage.dart';
 import 'package:medtrack/servies/auth.dart';
 import 'package:medtrack/settingsSOS.dart';
@@ -31,6 +31,7 @@ class DashPage extends StatefulWidget {
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
+User? user = _auth.currentUser;
 bool showSpinner = false;
 Map<String, dynamic> dataOfUser = {};
 
