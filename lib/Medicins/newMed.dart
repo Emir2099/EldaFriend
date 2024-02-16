@@ -19,8 +19,8 @@ class NewMedicine extends StatefulWidget {
 final _auth = FirebaseAuth.instance;
 bool showSpinner = false;
 Map<String, Color> _Colors = {
-  "orange": Color.fromARGB(255, 231, 146, 71),
-  "blue": Color.fromARGB(255, 92, 107, 192)
+    "orange": Color.fromARGB(255, 241, 135, 128),
+    "blue": Color.fromARGB(255, 165, 238, 171)
 };
 final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 String pillName = '';
@@ -82,7 +82,7 @@ class _NewMedicineState extends State<NewMedicine> {
               end: Alignment.bottomRight,
               colors: [
                 // First color
-                Color.fromARGB(255, 231, 146, 71),
+                Color.fromARGB(255, 241, 135, 128),
                 Color.fromARGB(255, 255, 255, 255), // Second color
               ],
             )),

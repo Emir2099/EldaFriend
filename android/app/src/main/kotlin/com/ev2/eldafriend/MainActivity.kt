@@ -1,4 +1,4 @@
-package com.new.package.eldafriend
+package com.ev2.eldafriend
 
 import io.flutter.embedding.android.FlutterActivity
 

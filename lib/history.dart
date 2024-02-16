@@ -30,8 +30,8 @@ bool showSpinner = false;
 List<dynamic> dataOfTakedMed = [];
 
 Map<String, Color> _Colors = {
-  "orange": Color.fromARGB(255, 231, 146, 71),
-  "blue": Color.fromARGB(255, 92, 107, 192)
+   "orange": Color.fromARGB(255, 241, 135, 128),
+    "blue": Color.fromARGB(255, 165, 238, 171)
 };
 
 class _HistoryState extends State<History> {

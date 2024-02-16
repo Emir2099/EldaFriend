@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:ffi';
+import 'dart:ffi' as ffi;
 import 'dart:math';
 import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,8 +34,8 @@ List<Map<String, dynamic>> meds = [];
 List<Map<String, dynamic>> medInDate = [];
 List<dynamic> timeEvents = [];
 Map<String, Color> _Colors = {
-  "orange": Color.fromARGB(255, 231, 146, 71),
-  "blue": Color.fromARGB(255, 92, 107, 192)
+    "orange": Color.fromARGB(255, 241, 135, 128),
+    "blue": Color.fromARGB(255, 165, 238, 171)
 };
 
 class _HomePageState extends State<HomePage> {
@@ -142,50 +142,87 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        leading: BackButton(
-    onPressed: () {
-      Navigator.of(context).pushAndRemoveUntil(
-  MaterialPageRoute(builder: (context) => DashPage()),
-  (Route<dynamic> route) => false,
-);
-    },
-  ),
-        backgroundColor: _Colors['orange'],
-        automaticallyImplyLeading: false,
-        title: Text(
-          (dataOfUser['name']).toString(),
-          style: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        // leading: BackButton(),
-        actions: [
-          Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.notifications),
-                onPressed: () async {
-                  await getTheMedicines();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.history),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'history');
-                },
-              ),
-            ],
-          ),
-        ],
-        centerTitle: true,
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Color.fromARGB(255, 255, 255, 255),
+    appBar: PreferredSize(
+  preferredSize: Size.fromHeight(70),
+  child: Container(
+    decoration: BoxDecoration(
+      color: Colors.blue[600],
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(20),
+        bottomRight: Radius.circular(20),
       ),
+    ),
+    child: AppBar(
+      leading: BackButton(
+        onPressed: () {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => DashPage()),
+            (Route<dynamic> route) => false,
+          );
+        },
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      title: Text(
+        (dataOfUser['name']).toString(),
+        style: TextStyle(
+          color: Color.fromARGB(255, 255, 255, 255),
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+          actions: [
+            // Row(
+            //   children: [
+            //     IconButton(
+            //       icon: Icon(Icons.notifications),
+            //       onPressed: () async {
+            //         await getTheMedicines();
+            //       },
+            //     ),
+            //   IconButton(
+            //       icon: Icon(Icons.history),
+            //       onPressed: () {
+            //         Navigator.pushNamed(context, 'history');
+            //       },
+            //     ),
+            //   ],
+            // ),
+
+            Row(
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(), // This makes the button round
+                primary: Colors.white, // This is the button color
+              ),
+              onPressed: () async {
+                await getTheMedicines();
+              },
+              child: Icon(Icons.notifications, color: Colors.blue),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(), // This makes the button round
+                primary: Colors.white, // This is the button color
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, 'history');
+              },
+              child: Icon(Icons.history, color: Colors.blue),
+            ),
+          ],
+        ),
+
+          ],
+          centerTitle: false,
+        ),
+      ),
+    ),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: SizedBox(
@@ -208,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                       titleCentered: true,
                       titleTextStyle: TextStyle(
                           fontSize: 20,
-                          color: _Colors['blue'],
+                          color: Colors.blue[600],
                           fontWeight: FontWeight.w800)),
                   availableGestures: AvailableGestures.all,
                   calendarStyle: CalendarStyle(
@@ -224,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       'Selected Day, ${selectedDay.day} ${DateFormat.MMM().format(selectedDay)} ',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: _Colors['blue']),
+                          fontWeight: FontWeight.bold, color: Colors.grey),
                     ),
                     SizedBox(
                       height: 5,
@@ -233,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                       'Today, ${focusedDay.day} ${DateFormat.MMM().format(focusedDay)} ',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: _Colors['orange']),
+                          color: Colors.black),
                     ),
                   ],
                 ),
@@ -271,7 +308,7 @@ class _HomePageState extends State<HomePage> {
             )),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: _Colors['orange'],
+        backgroundColor: Colors.blue,
         onPressed: () async {
           showDialog<String>(
                   context: context,
@@ -334,31 +371,31 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 60),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.07,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  primary: _Colors['orange'],
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  'Add a Medicine',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 60),
+          //   child: SizedBox(
+          //     width: MediaQuery.of(context).size.width * 0.8,
+          //     height: MediaQuery.of(context).size.height * 0.07,
+          //     child: ElevatedButton(
+          //       onPressed: () {},
+          //       style: ElevatedButton.styleFrom(
+          //         primary: _Colors['orange'],
+          //         elevation: 10,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //         ),
+          //       ),
+          //       child: const Text(
+          //         'Add a Medicine',
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //           fontSize: 23,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

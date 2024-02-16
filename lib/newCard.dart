@@ -15,8 +15,8 @@ class newCard extends StatefulWidget {
   newCard(this.date,this.dataOfUser, this.dataOfPill, this.isDelete, {super.key});
 
   Map<String, Color> _Colors = {
-    "orange": Color.fromARGB(255, 231, 146, 71),
-    "blue": Color.fromARGB(255, 92, 107, 192)
+    "orange": Color.fromARGB(255, 241, 135, 128),
+    "blue": Color.fromARGB(255, 165, 238, 171)
   };
 
   @override
@@ -153,8 +153,8 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
                     colors: [
                       Color.fromARGB(255, 255, 255, 255), // First color
     (taked && (DateFormat('yyyy-MM-dd').format(datetakedmed) == DateFormat('yyyy-MM-dd').format(widget.date)))
-        ? Colors.blue
-        : Color.fromARGB(255, 231, 146, 71), // Second color
+        ? Color.fromARGB(255, 165, 238, 171)
+        : Color.fromARGB(255, 241, 135, 128), // Second color
                       // Color.fromARGB(255, 255, 255, 255), // First color
                       // (!taked && (datetakedmed.toString() == widget.date))
                       //     ? Color.fromARGB(255, 231, 146, 71)

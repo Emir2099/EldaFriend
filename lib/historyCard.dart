@@ -14,8 +14,8 @@ class HistoryCard extends StatefulWidget {
     this.dataOfPill,
   );
   Map<String, Color> _Colors = {
-    "orange": Color.fromARGB(255, 231, 146, 71),
-    "blue": Color.fromARGB(255, 92, 107, 192)
+      "orange": Color.fromARGB(255, 241, 135, 128),
+    "blue": Color.fromARGB(255, 165, 238, 171)
   };
 
   @override
@@ -61,7 +61,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   gradient: const LinearGradient(
                     colors: [
                       Color.fromARGB(255, 255, 255, 255), // First color
-                      Colors.cyan, // Second color
+                      Color.fromARGB(255, 165, 238, 171) // Second color
                     ],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
