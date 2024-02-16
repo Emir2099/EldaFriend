@@ -6,7 +6,9 @@ import 'package:medtrack/graphs.dart';
 import 'package:medtrack/history.dart';
 import 'package:medtrack/medications.dart';
 import 'package:medtrack/openPage.dart';
+import 'package:medtrack/pages/about.dart';
 import 'package:medtrack/pages/dash.dart';
+import 'package:medtrack/pages/elderlayout.dart';
 import 'package:medtrack/provider/theme_provider.dart';
 import 'package:medtrack/register.dart';
 import 'package:medtrack/homePage.dart';
@@ -60,25 +62,27 @@ class MyApp extends StatelessWidget {
           final themeProvider = Provider.of<ThemeProvider>(context);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-      title: 'Stuck Service',
-      initialRoute: 'MyHomePage',
-      themeMode: themeProvider.mode,
-      routes: {
-        'MyHomePage': (context) => MyHomePage(),
-        'register': (context) => MyRegister(),
-        'homepage': (context) => HomePage(),
-        'medications': (context) => Medications(),
-        'settingsSOS': (context) => settingsSOS(),
-        'updateSOS': (context) => updateSOS(),
-        'graphs': (context) => graphs(),
-        'history': (context) => History(),
-        'bot': (context) => BotHome(),
-        'dashboard': (context) => DashPage(),
-        // 'community':(context) => HomeScreen(),
-      },
-    );
-  });
-}
+            title: 'Stuck Service',
+            initialRoute: 'MyHomePage',
+            themeMode: themeProvider.mode,
+            routes: {
+              'MyHomePage': (context) => MyHomePage(),
+              'register': (context) => MyRegister(),
+              'homepage': (context) => HomePage(),
+              'medications': (context) => Medications(),
+              'settingsSOS': (context) => settingsSOS(),
+              'updateSOS': (context) => updateSOS(),
+              'graphs': (context) => graphs(),
+              'history': (context) => History(),
+              'bot': (context) => BotHome(),
+              'dashboard': (context) => DashPage(),
+              'elderlayout':(context) => ElderPage(),
+              'about':(context) => AboutPage(),
+              // 'community':(context) => HomeScreen(),
+            },
+          );
+        });
+  }
 }
 
 class MyHomePage extends StatefulWidget {

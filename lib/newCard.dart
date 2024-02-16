@@ -9,9 +9,10 @@ import 'package:medtrack/openPage.dart';
 
 class newCard extends StatefulWidget {
   var dataOfUser;
-  var dataOfPill;
+  var   dataOfPill;
+  var date;
   final Function(String) isDelete;
-  newCard(this.dataOfUser, this.dataOfPill, this.isDelete, {super.key});
+  newCard(this.date,this.dataOfUser, this.dataOfPill, this.isDelete, {super.key});
 
   Map<String, Color> _Colors = {
     "orange": Color.fromARGB(255, 231, 146, 71),
@@ -25,11 +26,13 @@ class newCard extends StatefulWidget {
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
+var datetakedmed = DateTime.now();
+var todaydate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
 class _newCardState extends State<newCard> {
   Offset? _tapPosition;
-  bool _taked = false;
-
+  // bool _taked = false;
+bool taked = false;
   @override
   void initState() {
     _getTakedValue();
@@ -39,23 +42,39 @@ class _newCardState extends State<newCard> {
   void _getTakedValue() async {
   var docRef = _firestore
       .collection("Taked")
-      .doc(widget.dataOfPill['medTime'].toString() +
+      .doc(widget.dataOfPill['pillName'] +"-"+widget.dataOfPill['medTime'].toString() +
+          "-"+ 
+          DateFormat('yyyy-MM-dd').format(DateTime.now()));
+print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
           "-" +
           widget.dataOfPill['medDate'].toString());
-
   var docSnapshot = await docRef.get();
 
   if (docSnapshot.exists) {
     Map<String, dynamic>? data = docSnapshot.data();
-    bool taked = data?['taked'] ?? false;
+    bool takedFromFirestore = data?['taked'];
+    var takedDate = data?['takedDate'];
+    print("taked or notttt$takedFromFirestore");
+    // print();
+    // print(DateTime.now());
+    try 
+    {
+      print(DateFormat('yyyy-MM-dd').format(takedDate));
+    } catch (e) {
+      print("ERROR IS THISS$e");
+    }
+    
 
     setState(() {
-      _taked = taked;
+      taked = takedFromFirestore;
+      datetakedmed = takedDate; 
+      // print("hihisihfsidhfiodshafos$_taked");
     });
   }
 }                          
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       alignment: Alignment.center,
       child: Row(
@@ -77,9 +96,9 @@ class _newCardState extends State<newCard> {
               onDoubleTap: () {
                 DateTime now = DateTime.now();
                 setState(() {
-                  if (_taked == true) {
+                  if (taked == true) {
                     print(widget.dataOfPill);
-                    _taked = false;
+                    taked = false;
                     print(widget.dataOfUser['email']);
                     Map<String, dynamic> data = {
                       'medTime': widget.dataOfPill['medTime'],
@@ -89,18 +108,18 @@ class _newCardState extends State<newCard> {
                       'pillType': widget.dataOfPill['pillType'].toString(),
                       'pillWeek': widget.dataOfPill['pillWeek'].toString(),
                       'medDate': widget.dataOfPill['medDate'].toString(),
-                      'taked': _taked,
+                      'taked': taked,
                       'usermail': widget.dataOfUser['email'],
                     };
 
                     _firestore
                         .collection("Taked")
-                        .doc(widget.dataOfPill['medTime'].toString() +
+                        .doc(widget.dataOfPill['pillName'] + "-"+widget.dataOfPill['medTime'].toString() +
                             "-" +
-                            widget.dataOfPill['medDate'].toString())
+                            DateFormat('yyyy-MM-dd').format(DateTime.now()))
                         .set(data);
                   } else {
-                    _taked = true;
+                    taked = true;
 
                     Map<String, dynamic> data = {
                       'medTime': widget.dataOfPill['medTime'],
@@ -110,16 +129,15 @@ class _newCardState extends State<newCard> {
                       'pillType': widget.dataOfPill['pillType'].toString(),
                       'pillWeek': widget.dataOfPill['pillWeek'].toString(),
                       'medDate': widget.dataOfPill['medDate'].toString(),
-                      'taked': _taked,
+                      'taked': taked,
+                      'takedDate': DateFormat("dd.MM.yy").format(widget.date),
                       'takedAt': DateFormat.Hm().format(now),
                       'usermail': widget.dataOfUser['email'],
                     };
 
                     _firestore
                         .collection("Taked")
-                        .doc(widget.dataOfPill['medTime'].toString() +
-                            "-" +
-                            widget.dataOfPill['medDate'].toString())
+                        .doc(widget.dataOfPill['pillName'] + "-"+widget.dataOfPill['medTime'].toString()+"-" +DateFormat('yyyy-MM-dd').format(DateTime.now()))
                         .set(data);
                   }
                 });
@@ -134,9 +152,13 @@ class _newCardState extends State<newCard> {
                   gradient: LinearGradient(
                     colors: [
                       Color.fromARGB(255, 255, 255, 255), // First color
-                      !_taked
-                          ? Color.fromARGB(255, 231, 146, 71)
-                          : Colors.cyan, // Second color
+    (taked && (DateFormat('yyyy-MM-dd').format(datetakedmed) == DateFormat('yyyy-MM-dd').format(widget.date)))
+        ? Colors.blue
+        : Color.fromARGB(255, 231, 146, 71), // Second color
+                      // Color.fromARGB(255, 255, 255, 255), // First color
+                      // (!taked && (datetakedmed.toString() == widget.date))
+                      //     ? Color.fromARGB(255, 231, 146, 71)
+                      //     : Colors.cyan, // Second color
                     ],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,

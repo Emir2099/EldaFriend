@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:medtrack/Medicins/newMed.dart';
 import 'package:medtrack/graphs.dart';
 import 'package:medtrack/newCard.dart';
+import 'package:medtrack/pages/dash.dart';
 
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -146,6 +147,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
+        leading: BackButton(
+    onPressed: () {
+      Navigator.of(context).pushAndRemoveUntil(
+  MaterialPageRoute(builder: (context) => DashPage()),
+  (Route<dynamic> route) => false,
+);
+    },
+  ),
         backgroundColor: _Colors['orange'],
         automaticallyImplyLeading: false,
         title: Text(
@@ -251,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                             Map<String, dynamic> medicineData =
                                 medInDate[index];
                                 print("this is lengthhhhhhhhh${medInDate.length}");
-                            return newCard(
+                            return newCard(selectedDay,
                                 dataOfUser, medInDate[index], isDelete);
                           },
                           separatorBuilder: (BuildContext context, int index) =>
@@ -280,78 +289,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
 
-      // bottomNavigationBar: BottomAppBar(
-      //   height: 50,
-      //   color: Color.fromARGB(255, 255, 255, 255),
-      //   shape: CircularNotchedRectangle(),
-      //   notchMargin: 5,
-      //   child: Row(
-      //     mainAxisSize: MainAxisSize.min,
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     children: <Widget>[
-      //       SizedBox(
-      //         width: 70,
-      //       ),
-      //       IconButton(
-      //         iconSize: 28,
-      //         icon: Icon(
-      //           Icons.analytics_outlined,
-      //           color: _Colors['blue'],
-      //         ),
-      //         onPressed: () {
-      //           Navigator.pushNamed(context, 'graphs');
-      //           // getTheMedicinesData();
-      //           print("////////////////////---------------");
-      //           print(meds);
-      //           // Navigator.push(
-      //           //     context,
-      //           //     MaterialPageRoute(
-      //           //       builder: (context) => graphs(meds),
-      //           //     ));
-      //         },
-      //       ),
-      //       SizedBox(
-      //         width: 30,
-      //       ),
-      //       IconButton(
-      //         iconSize: 28,
-      //         icon: Icon(
-      //           Icons.history,
-      //           color: _Colors['blue'],
-      //         ),
-      //         onPressed: () {
-      //           Navigator.pushNamed(context, 'history');
-      //         },
-      //       ),
-      //       SizedBox(
-      //         width: 30,
-      //       ),
-      //       IconButton(
-      //         iconSize: 28,
-      //         icon: Icon(
-      //           Icons.medication,
-      //           color: _Colors['blue'],
-      //         ),
-      //         onPressed: () {
-      //           Navigator.pushNamed(context, 'medications');
-      //         },
-      //       ),
-      //       SizedBox(
-      //         width: 30,
-      //       ),
-      //       IconButton(
-      //         iconSize: 28,
-      //         icon: Icon(
-      //           Icons.person_3_outlined,
-      //           color: _Colors['blue'],
-      //         ),
-      //         onPressed: () {
-      //           Navigator.pushNamed(context, 'settings');
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 
@@ -430,6 +367,7 @@ class _HomePageState extends State<HomePage> {
   void _onDaySelected(DateTime _selectedDay, DateTime focusedDay) async {
     setState(() {
       selectedDay = _selectedDay;
+      print("this the dayyy${selectedDay.day}");
     });
     await getTheMedicines();
   }

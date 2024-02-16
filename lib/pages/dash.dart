@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ import 'package:medtrack/homePage.dart';
 import 'package:medtrack/medications.dart';
 // import 'package:medtrack/newCard.dart';
 import 'package:medtrack/openPage.dart';
+import 'package:medtrack/pages/elderlayout.dart';
+
+import 'package:medtrack/screens/account_screen.dart';
 import 'package:medtrack/servies/auth.dart';
 import 'package:medtrack/settingsSOS.dart';
 import 'package:medtrack/util/functions_tile.dart';
@@ -64,17 +68,20 @@ const _heightPercentages = [
     0.46,
 ];
 
+List datalisttaked = [];
 class _DashPageState extends State<DashPage> {
   
   DateTime selectedDay = DateTime.now();
 void initState() {
     // TODO: implement initState
     getDataOfUser();
+    datalisttaked = [];
      //////////////test
      getTheMedicines();
     getTheTakedMedicines();
     super.initState();
   }
+  
   Future<void> getTheMedicines() async {
     setState(() {
       showSpinner = true;
@@ -96,9 +103,11 @@ void initState() {
         Events.add(doc.data()['medTime'].toString());
       });
       dataList.sort((a, b) => a["medTime"].compareTo(b["medTime"]));
-      print(dataList);
+      print("this is the lengthhhhjkjkkj${dataList.length}");
       print(timeEvents);
+      print("the global pin is" + globalPin);
       medInDate = dataList;
+      print("This the medddindateeee${medInDate.length}");
       timeEvents = Events;
 
       setState(() {
@@ -116,18 +125,20 @@ void initState() {
     setState(() {
       showSpinner = true;
     });
-    dataOfTakedMed = [];
+    var day = selectedDay.day;
+    var month = selectedDay.month;
+    // dataOfTakedMed = [];
     await FirebaseFirestore.instance
         .collection('Taked')
-        .where('usermail', isEqualTo: _auth.currentUser!.email).where('taked',isEqualTo: true)
+        .where('takedDate', isEqualTo: DateFormat("dd.MM.yy").format(selectedDay))
         .get()
         .then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        dataOfTakedMed.add(doc.data());
+        datalisttaked.add(doc.data());
       });
-      dataOfTakedMed.sort((a, b) => b["medDate"].compareTo(a["medDate"]));
-      dataOfTakedMed.sort((a, b) => b["takedAt"].compareTo(a["takedAt"]));
-      print(dataOfTakedMed[1]);
+      datalisttaked.sort((a, b) => b["medDate"].compareTo(a["medDate"]));
+      datalisttaked.sort((a, b) => b["takedAt"].compareTo(a["takedAt"]));
+      print("Plzzzz medicine${datalisttaked.length}");
       setState(() {
         showSpinner = false;
       });
@@ -249,10 +260,12 @@ void initState() {
         borderRadius: BorderRadius.all(Radius.circular(16.0))),
       child: SimpleAnimationProgressBar(
         height: 30,
-        width: 300,
+        width: 400,
         backgroundColor: Colors.grey.shade800,
         foregrondColor: Color.fromARGB(255, 26, 233, 8),
-        ratio: dataOfTakedMed.length / medInDate.length, // calculate the ratio
+
+        ratio:datalisttaked.isEmpty ? 0 : datalisttaked.length.toDouble() / medInDate.length.toDouble(),
+       // calculate the ratio
         direction: Axis.horizontal,
         curve: Curves.fastLinearToSlowEaseIn,
         duration: const Duration(seconds: 3),
@@ -440,7 +453,7 @@ void initState() {
                     });
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BotHome()),
+                      MaterialPageRoute(builder: (context) => AccountScreen()),
                     );
                   },
                   child: AnimatedContainer(
@@ -505,10 +518,28 @@ void initState() {
     setState(() {
       _isPressedB1 = false;
     });
+    if (globalPin == '') {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('Please go to settings and set the mode pin.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    } else{
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+      MaterialPageRoute(builder: (context) => ElderPage()),
     );
+  }
   },
   child: AnimatedContainer(
     duration: Duration(milliseconds: 200),
@@ -583,10 +614,15 @@ void initState() {
     setState(() {
       _isPressedB3 = false;
     });
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => graphs()),
-    );
+    // Navigator.pushAndRemoveUntil(context, graphs(), (route) => false)
+    Navigator.of(context).pushAndRemoveUntil(
+  MaterialPageRoute(builder: (context) => graphs()),
+  (Route<dynamic> route) => false,
+);
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => graphs()),
+    // );
   },
   child: Transform.translate(
     offset: Offset(0, _isPressedB3 ? 10 : 0),
