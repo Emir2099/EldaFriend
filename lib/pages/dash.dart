@@ -233,7 +233,7 @@ void initState() {
                 });
                             },
                             child: Icon(
-                              Icons.notifications,
+                              Icons.logout,
                               color: Colors.white,
                             ),
                           ),

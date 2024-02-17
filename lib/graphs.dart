@@ -1,11 +1,13 @@
 import 'dart:convert';
-import 'dart:ffi';
+import 'dart:ffi' as ffi;
+import 'dart:math';
 //import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medtrack/model.dart';
+import 'package:medtrack/pages/dash.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -18,6 +20,9 @@ class graphs extends StatefulWidget {
   State<graphs> createState() => _graphsState();
 }
 
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+
 bool showSpinner = false;
 Map<String, Color> _Colors = {
   "orange": Color.fromARGB(255, 231, 146, 71),
@@ -26,8 +31,9 @@ Map<String, Color> _Colors = {
 
 class _graphsState extends State<graphs> {
   List graph_data = [];
-  final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
+  
+
+  User? user = _auth.currentUser; 
   @override
   void initState() {
     // TODO: implement initState
@@ -54,17 +60,77 @@ class _graphsState extends State<graphs> {
     return sumByPillName;
   }
 
-  Widget virtical_chart(Map MED, List<double> barChartData) {
+  // Widget virtical_chart(Map MED, List<double> barChartData) {
+  //   return BarChart(
+  //     BarChartData(
+  //       alignment: BarChartAlignment.spaceAround,
+  //       maxY: 1000,
+  //       barTouchData: BarTouchData(enabled: false),
+  //       titlesData: FlTitlesData(
+  //         leftTitles: SideTitles(
+  //           showTitles: true,
+  //           getTextStyles: (value) =>
+  //               const TextStyle(color: Colors.blueGrey, fontSize: 12),
+  //           getTitles: (value) {
+  //             return value.toInt().toString();
+  //           },
+  //           margin: 8,
+  //           reservedSize: 30,
+  //         ),
+  //         bottomTitles: SideTitles(
+  //           showTitles: true,
+  //           getTextStyles: (value) =>
+  //               const TextStyle(color: Colors.blueGrey, fontSize: 12),
+  //           getTitles: (value) {
+  //             final List<String> barChartData_ml_pillname =
+  //                 MED.keys.toList() as List<String>;
+
+  //             for (int i = 0; i < barChartData_ml_pillname.length; i++) {
+  //               if (value.toInt() == i) {
+  //                 return barChartData_ml_pillname[i];
+  //               }
+  //             }
+
+  //             return "";
+  //           },
+  //         ),
+  //       ),
+  //       gridData: FlGridData(show: false),
+  //       borderData: FlBorderData(show: false),
+  //       barGroups: barChartData
+  //           .asMap()
+  //           .map(
+  //             (index, value) => MapEntry(
+  //               index,
+  //               BarChartGroupData(
+  //                 x: index,
+  //                 barRods: [
+  //                   BarChartRodData(
+  //                     y: value,
+  //                     colors: [Colors.blue],
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           )
+  //           .values
+  //           .toList(),
+  //     ),
+  //   );
+  // }
+
+
+Widget virtical_chart(Map MED, List<double> barChartData, double maxY) {
     return BarChart(
       BarChartData(
         alignment: BarChartAlignment.spaceAround,
-        maxY: 1000,
+        maxY: maxY,
         barTouchData: BarTouchData(enabled: false),
         titlesData: FlTitlesData(
           leftTitles: SideTitles(
             showTitles: true,
             getTextStyles: (value) =>
-                const TextStyle(color: Colors.blueGrey, fontSize: 10),
+                const TextStyle(color: Colors.blueGrey, fontSize: 12),
             getTitles: (value) {
               return value.toInt().toString();
             },
@@ -74,7 +140,7 @@ class _graphsState extends State<graphs> {
           bottomTitles: SideTitles(
             showTitles: true,
             getTextStyles: (value) =>
-                const TextStyle(color: Colors.blueGrey, fontSize: 10),
+                const TextStyle(color: Colors.blueGrey, fontSize: 12),
             getTitles: (value) {
               final List<String> barChartData_ml_pillname =
                   MED.keys.toList() as List<String>;
@@ -112,6 +178,7 @@ class _graphsState extends State<graphs> {
       ),
     );
   }
+
 
   List<PieChartSectionData> bie_data_func(Map MED) {
     final List<PieChartSectionData> bie_data = [];
@@ -158,14 +225,43 @@ class _graphsState extends State<graphs> {
   Widget build(BuildContext context) {
     return Scaffold(
       // bottomNavigationBar: buttomBar.buttomAppBar_app(context),
-      appBar: AppBar(
-        backgroundColor: _Colors['orange'],
-        title: Text('Statistics and analytics'),
+      appBar: PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.blue[600],
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
       ),
+      child: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => DashPage()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('History',
+          style: TextStyle(
+          
+            color: Color.fromARGB(255, 255, 255, 255),
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+         centerTitle: true,
+      ),
+    ),
+  ),
       body: StreamBuilder<QuerySnapshot>(
           stream: _firestore
               .collection("Taked")
-              .where("taked", isEqualTo: true)
+              .where('usermail', isEqualTo: _auth.currentUser!.email).where('taked',isEqualTo: true)
               .snapshots(),
           builder: (context, snapshots) {
             graph_data = [];
@@ -200,7 +296,21 @@ class _graphsState extends State<graphs> {
                 MG_MED.values.toList() as List<double>;
 
             print("bie_data_ml");
-
+            double maxValueml = 0.0;
+            ML_MED.forEach((key, value) {
+    if (value > maxValueml) {
+      maxValueml = value;
+    }
+  });
+  double maxY_ml = maxValueml + 50;    
+       double maxValuemg = 0.0;
+            MG_MED.forEach((key, value) {
+    if (value > maxValuemg) {
+      maxValuemg = value;
+    }
+  });
+  double maxY_mg = maxValuemg + 50;        
+            //double maxY_ml = ml_med.expand((med) => med.values).reduce(max) + 50;
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -216,6 +326,7 @@ class _graphsState extends State<graphs> {
                         SizedBox(
                           height: 10,
                         ),
+                        if(ml_med.isNotEmpty) ...[
                         Text(
                           "Bar Chart",
                           style: TextStyle(
@@ -224,16 +335,18 @@ class _graphsState extends State<graphs> {
                         Text("To show",
                             style: TextStyle(
                                 color: Colors.black38,
-                                fontSize: 15,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold)),
-                        Text("the consumption of medicine in milliliters (ml)"),
+                        Text("The consumption of medicine in milliliters (ml)"),
                         SizedBox(
                           height: 20,
                         ),
-                        virtical_chart(ML_MED, barChartData_ml),
+                        virtical_chart(ML_MED, barChartData_ml, maxY_ml),
+                        ],
                         SizedBox(
                           height: 20,
                         ),
+                        if(mg_med.isNotEmpty) ...[
                         Text(
                           "Bar Chart",
                           style: TextStyle(
@@ -242,13 +355,14 @@ class _graphsState extends State<graphs> {
                         Text("To show",
                             style: TextStyle(
                                 color: Colors.black38,
-                                fontSize: 15,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold)),
-                        Text("the consumption of medicine in milligrams (mg)"),
+                        Text("The consumption of medicine in milligrams (mg)"),
                         SizedBox(
                           height: 20,
                         ),
-                        virtical_chart(MG_MED, barChartData_mg),
+                        virtical_chart(MG_MED, barChartData_mg,maxY_mg),
+                        ],
                         SizedBox(
                           height: 50,
                         ),
@@ -257,6 +371,7 @@ class _graphsState extends State<graphs> {
                             SizedBox(
                               height: 10,
                             ),
+                            if(ml_med.isNotEmpty) ...[
                             Text(
                               "Pie Chart",
                               style: TextStyle(
@@ -265,10 +380,10 @@ class _graphsState extends State<graphs> {
                             Text("To show",
                                 style: TextStyle(
                                     color: Colors.black38,
-                                    fontSize: 15,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold)),
                             Text(
-                                "the Percentage of medicines in milliliters (ml)"),
+                                "The Percentage of medicines in milliliters (ml)"),
                             SizedBox(
                               height: 20,
                             ),
@@ -283,11 +398,13 @@ class _graphsState extends State<graphs> {
                                 ),
                               ),
                             ),
+                          ]
                           ],
                         ),
                         SizedBox(
                           height: 10,
                         ),
+                        if(mg_med.isNotEmpty) ...[
                         Text(
                           "Pie Chart",
                           style: TextStyle(
@@ -296,9 +413,9 @@ class _graphsState extends State<graphs> {
                         Text("To show",
                             style: TextStyle(
                                 color: Colors.black38,
-                                fontSize: 15,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold)),
-                        Text("the Percentage of medicines in milliliters (ml)"),
+                        Text("The Percentage of medicines in milligrams (mg)"),
                         SizedBox(
                           height: 20,
                         ),
@@ -313,6 +430,7 @@ class _graphsState extends State<graphs> {
                             ),
                           ),
                         ),
+                        ]
                       ],
                     ),
                   ),

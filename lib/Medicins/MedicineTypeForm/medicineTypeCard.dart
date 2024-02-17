@@ -17,10 +17,10 @@ class MedicineTypeCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
                 color: Colors.black12, // Border color
-                width: 1.0, // Border width
+                width: 3.0, // Border width
               ),
               color: pillType.isChoose
-                  ? Color.fromARGB(255, 231, 146, 71)
+                  ? Colors.blue
                   : Color.fromARGB(216, 255, 255, 255),
             ),
             width: 100,

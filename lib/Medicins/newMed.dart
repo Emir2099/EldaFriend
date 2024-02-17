@@ -73,16 +73,18 @@ class _NewMedicineState extends State<NewMedicine> {
   Widget build(BuildContext context) {
     final focus = FocusScope.of(context);
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(20.0),
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                // First color
-                Color.fromARGB(255, 241, 135, 128),
+               
+                // Colors.blue,
+                // Color.fromARGB(255, 160, 160, 160), // Second color
+                Color.fromARGB(255, 255, 255, 255),  // First color
                 Color.fromARGB(255, 255, 255, 255), // Second color
               ],
             )),
@@ -102,7 +104,9 @@ class _NewMedicineState extends State<NewMedicine> {
                   const Text(
                     textAlign: TextAlign.center,
                     'New Medicine',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                    fontSize: 25, 
+                    fontWeight: FontWeight.bold),
                   ),
                   const Divider(
                     thickness: 3,
@@ -128,11 +132,12 @@ class _NewMedicineState extends State<NewMedicine> {
                             return null;
                           }
                         },
+                        
                         decoration: Decoration(
                           "${medicineTypes[medicineTypes.indexWhere((element) => element.isChoose == true)].name} Name",
                           Icon(
                             Icons.medication_liquid_sharp,
-                            color: Color.fromARGB(255, 0, 0, 0),
+                            color: Colors.blue[600],
                           ),
                         ),
                       ),
@@ -198,7 +203,7 @@ class _NewMedicineState extends State<NewMedicine> {
                               pillType = value!;
                             },
                             decoration: Decoration(
-                              "type",
+                              "Type",
                               null,
                             ),
                           ),
@@ -224,13 +229,13 @@ class _NewMedicineState extends State<NewMedicine> {
                   ),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                        activeTrackColor: Colors.white,
-                        overlayColor: Color.fromARGB(106, 231, 146, 71),
+                        activeTrackColor: const Color.fromARGB(255, 107, 177, 235),
+                        overlayColor: const Color.fromARGB(255, 107, 177, 235),
                         thumbShape:
                             RoundSliderThumbShape(enabledThumbRadius: 10.0),
                         overlayShape:
                             RoundSliderOverlayShape(overlayRadius: 25.0),
-                        thumbColor: Color.fromARGB(255, 255, 255, 255)),
+                        thumbColor: const Color.fromARGB(255, 107, 177, 235)),
                     child: Slider(
                       value: _currentSliderValue.toDouble(),
                       min: 1,
@@ -305,7 +310,7 @@ class _NewMedicineState extends State<NewMedicine> {
                                     Text(
                                       DateFormat.Hm().format(setDate),
                                       style: const TextStyle(
-                                          fontSize: 35,
+                                          fontSize: 25,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -313,9 +318,9 @@ class _NewMedicineState extends State<NewMedicine> {
                                     Flexible(
                                       child: Icon(
                                         Icons.access_time,
-                                        size: 30,
+                                        size: 28,
                                         color:
-                                            Color.fromARGB(255, 231, 146, 71),
+                                            Colors.blue[600],
                                       ),
                                     ),
                                   ],
@@ -340,7 +345,7 @@ class _NewMedicineState extends State<NewMedicine> {
                                     Text(
                                       DateFormat("dd.MM").format(setDate),
                                       style: const TextStyle(
-                                          fontSize: 35,
+                                          fontSize: 25,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -348,9 +353,9 @@ class _NewMedicineState extends State<NewMedicine> {
                                     Flexible(
                                       child: Icon(
                                         Icons.event,
-                                        size: 30,
+                                        size: 28,
                                         color:
-                                            Color.fromARGB(255, 231, 146, 71),
+                                            Colors.blue[600],
                                       ),
                                     ),
                                   ],
@@ -379,8 +384,9 @@ class _NewMedicineState extends State<NewMedicine> {
                       ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 231, 146, 71),
-                            shadowColor: Colors.black38),
+                            primary: Colors.blue[600],
+                            elevation: 5.0,
+                            shadowColor: Colors.black),
                         onPressed: () async {
                           setState(() {
                             showSpinner = true;
@@ -533,20 +539,21 @@ class _NewMedicineState extends State<NewMedicine> {
   InputDecoration Decoration(String text, dynamic icon) {
     return InputDecoration(
       filled: true,
+      fillColor: Colors.white,
       labelText: text,
       labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
       prefixIcon: icon,
       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0), width: 1.0),
-        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0), width: 2.0),
-        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
     );
   }

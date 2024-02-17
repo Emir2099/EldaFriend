@@ -172,11 +172,33 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
                     children: <Widget>[
                       GestureDetector(
                         child: ListTile(
-                          leading: Image.asset(
-                            "assets/images/${widget.dataOfPill['medForm']}.png",
-                            fit: BoxFit.cover,
-                            width: 55.0,
-                          ),
+                          // leading: Image.asset(
+                          //   "assets/images/${widget.dataOfPill['medForm']}.png",
+                          //   fit: BoxFit.cover,
+                          //   width: 55.0,
+                          // ),
+     leading: Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(15.0), // Adjust as needed
+      border: Border.all(
+        color: Colors.grey, // Choose the border color
+        width: 3.0, // Choose the border width
+      ),
+    ),
+    child: Material(
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0), // Adjust as needed
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Image.asset(
+        "assets/images/${widget.dataOfPill['medForm']}.png",
+        width: 50.0, // Adjust width as needed
+        height: 100.0, // Adjust height as needed
+        // fit: BoxFit.cover,
+      ),
+    ),
+  ),
                           title: Container(
                             padding: EdgeInsets.all(16.0),
                             child: Column(

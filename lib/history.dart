@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:ffi';
+import 'dart:ffi' as ffi;
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +9,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:medtrack/Medicins/newMed.dart';
 import 'package:medtrack/graphs.dart';
 import 'package:medtrack/historyCard.dart';
+import 'package:medtrack/homePage.dart';
 import 'package:medtrack/newCard.dart';
+import 'package:medtrack/pages/dash.dart';
 
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 // import 'package:table_calendar/table_calendar.dart';
@@ -78,45 +80,62 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        backgroundColor: _Colors['orange'],
-        automaticallyImplyLeading: false,
-        title: Text(
-          'History',
+  backgroundColor: Color.fromARGB(255, 255, 255, 255),
+  appBar: PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.blue[600],
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
+      child: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('History',
           style: TextStyle(
+          
             color: Color.fromARGB(255, 255, 255, 255),
-            fontSize: 20,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: BackButton(),
-        centerTitle: true,
+         centerTitle: true,
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        child: SizedBox(
-            height: 1000,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(8),
-                    itemCount: dataOfTakedMed.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return HistoryCard(dataOfTakedMed[index]);
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
-                  ),
-                ),
-              ],
-            )),
-      ),
-    );
+    ),
+  ),
+  body: ModalProgressHUD(
+    inAsyncCall: showSpinner,
+    child: Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          child: ListView.separated(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(8),
+            itemCount: dataOfTakedMed.length,
+            itemBuilder: (BuildContext context, int index) {
+              return HistoryCard(dataOfTakedMed[index]);
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+          ),
+        ),
+      ],
+    ),
+  ),
+);
   }
 }
