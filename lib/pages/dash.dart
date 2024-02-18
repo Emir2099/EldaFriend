@@ -13,6 +13,7 @@ import 'package:medtrack/medications.dart';
 // import 'package:medtrack/newCard.dart';
 import 'package:medtrack/openPage.dart';
 import 'package:medtrack/pages/elderlayout.dart';
+import 'package:medtrack/pages/expense_home.dart';
 
 import 'package:medtrack/screens/account_screen.dart';
 import 'package:medtrack/servies/auth.dart';
@@ -389,7 +390,7 @@ void initState() {
                     });
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BotHome()),
+                      MaterialPageRoute(builder: (context) => ExpenseHomePage(fullname: dataOfUser['name'].toString())),
                     );
                   },
                   child: AnimatedContainer(
@@ -404,7 +405,7 @@ void initState() {
                 SizedBox(
                   height: 8,
                 ),
-                Text('Water Rem.', style: TextStyle(color: Colors.white)),
+                Text('Expenses', style: TextStyle(color: Colors.white)),
               ],
             ),
                         Column(

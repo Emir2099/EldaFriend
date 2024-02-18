@@ -16,7 +16,7 @@ class Icon2 extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Center(
         child: Icon(
-        Icons.timer, 
+        Icons.attach_money_outlined, 
         color: Colors.blue[600],
         size: 30,
         

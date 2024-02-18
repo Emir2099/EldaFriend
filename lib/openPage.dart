@@ -73,12 +73,12 @@ class _OpenPageState extends State<OpenPage> {
             children: [
               Container(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.2,
-                    top: MediaQuery.of(context).size.height * 0.2),
+                    left: MediaQuery.of(context).size.width * 0.15,
+                    top: MediaQuery.of(context).size.height * 0.05),
                 child: Text(
-                  'Welcome\nBack',
-                  style: TextStyle(color: Colors.white, fontSize: 33),
-                ),
+                  'Welcome Back!',
+                  style: TextStyle(color: Colors.blue[600], fontSize: 38, fontWeight: FontWeight.bold),
+                ), 
               ),
               Center(
                 child: Container(

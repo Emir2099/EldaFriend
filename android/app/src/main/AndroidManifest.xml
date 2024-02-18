@@ -44,9 +44,9 @@
 
 
    <application
-        android:label="eldafriend"
+        android:label="EldaFriend"
         android:name="${applicationName}"
-        android:icon="@mipmap/pill">
+        android:icon="@mipmap/fotor_logo">
 
                <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
 <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
@@ -75,7 +75,7 @@
                  
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@drawable/ic_launcher"
+              android:resource="@drawable/splash_new"
               />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

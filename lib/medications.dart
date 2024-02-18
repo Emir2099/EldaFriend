@@ -2,6 +2,7 @@
 //import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms/flutter_sms.dart';
+import 'package:medtrack/pages/dash.dart';
 import 'package:medtrack/updateSoS.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:geolocator/geolocator.dart';
@@ -72,20 +73,39 @@ print(_result);
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        backgroundColor: _Colors['orange'],
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Emergency',
+      appBar: PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.blue[600],
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
+      child: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => DashPage()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Emergency',
           style: TextStyle(
+          
             color: Color.fromARGB(255, 255, 255, 255),
-            fontSize: 20,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: BackButton(),
-        centerTitle: true,
+         centerTitle: true,
       ),
+    ),
+  ),
       // bottomNavigationBar: model_x.buttomAppBar_app(context),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -159,17 +179,17 @@ print(_result);
                     style: TextStyle(fontSize: 17),
                   ),
                 ),
-                Center(
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'settingsSOS');
-                    },
-                    icon: Icon(
-                      Icons.settings,
-                      size: 40,
-                    ),
-                  )
-                )
+                FloatingActionButton(
+  onPressed: () {
+    Navigator.pushNamed(context, 'settingsSOS');
+  },
+  child: Icon(
+    // color: Colors.blue[600],
+    Icons.settings,
+    size: 40,
+  ),
+  backgroundColor: Colors.blue[600],
+)
               ],
             )),
       ),

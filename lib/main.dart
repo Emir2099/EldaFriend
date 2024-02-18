@@ -17,7 +17,7 @@ import 'package:medtrack/settingsSOS.dart';
 import 'package:medtrack/updateSoS.dart';
 import 'package:medtrack/geminiapi/bot.dart';
 import 'package:provider/provider.dart';
-
+import 'package:medtrack/pages/expense_home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
               'dashboard': (context) => DashPage(),
               'elderlayout':(context) => ElderPage(),
               'about':(context) => AboutPage(),
+              // 'expensepage': (context) => ExpenseHomePage(fullname: dataOfUser['name'],),
               // 'community':(context) => HomeScreen(),
             },
           );

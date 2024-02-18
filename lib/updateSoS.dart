@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:medtrack/settingsSOS.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,59 +38,77 @@ class _updateSOSState extends State<updateSOS> {
 
   void _update_widget(String key) {}
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        backgroundColor: _Colors['orange'],
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Update SOS Phone Numbers',
-          style: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Color.fromARGB(255, 255, 255, 255),
+    appBar: PreferredSize(
+      preferredSize: Size.fromHeight(70),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.blue[600],
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
           ),
         ),
-        leading: BackButton(),
-        actions: [],
-        centerTitle: true,
+        child: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => settingsSOS()),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text('Set Up SOS',
+            style: TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+        ),
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
+    ),
+    body: ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      child: SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            height: 1000,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                for (var element in updateSOS.numbers.keys) ...[
-                  updateSOS.numbers[element.toString()] as Widget,
-                ],
-                IconButton(
-                  color: _Colors["blue"],
-                  onPressed: () {
-                    setState(() {
-                      updateSOS.numbers['phone' +
-                          (updateSOS.numbers.length + 2)
-                              .toString()] = field_w(
-                          'phone ' + (updateSOS.numbers.length + 1).toString());
-                      // text_field_for_phone(
-                      //     'phone' + (numbers.length + 2).toString());
-                    });
-                  },
-                  icon: Icon(
-                    Icons.add_circle,
-                    size: MediaQuery.of(context).size.width * 0.15,
-                  ),
-                )
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          height: 1000,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40,
+              ),
+              for (var element in updateSOS.numbers.keys) ...[
+                updateSOS.numbers[element.toString()] as Widget,
               ],
-            )),
+            ],
+          ),
+        ),
       ),
-    );
-  }
+    ),
+    floatingActionButton: FloatingActionButton( // Add the FloatingActionButton
+      backgroundColor: Colors.blue[600],
+      onPressed: () {
+        setState(() {
+          updateSOS.numbers['phone' +
+              (updateSOS.numbers.length + 2)
+                  .toString()] = field_w(
+              'phone ' + (updateSOS.numbers.length + 1).toString());
+        });
+      },
+      child: Icon(
+          Icons.add,
+          size: 30,
+        ),
+    ),
+  );
+}
 }
 
 class field_w extends StatefulWidget {
@@ -116,35 +135,37 @@ class field_w extends StatefulWidget {
 class _field_wState extends State<field_w> {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start, // Aligns the children along the start (left for LTR languages)
       children: [
         Text(widget.name + ": ", style: TextStyle(fontSize: 20)),
         SizedBox(
-          width: 15,
+          height: 10, // Adds some space between the Text and TextFormField
         ),
-        Expanded(
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.09,
-            width: MediaQuery.of(context).size.width * 0.95,
-            child: TextFormField(
-              initialValue: widget.phone,
-              onChanged: (value) {
-                setState(() {
-                  widget.phone = value;
-                });
-
-                //updateSOS.numbers.update(widget.name, (v) => new field_w(name));
-                // updateSOS.numbers
-              },
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  fillColor: Colors.black12,
-                  filled: true),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.09,
+          child: TextFormField(
+            initialValue: widget.phone,
+            onChanged: (value) {
+              setState(() {
+                widget.phone = value;
+              });
+            },
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15), // Rounded corners
+                borderSide: BorderSide(
+                  color: Colors.blue, // Border color
+                  width: 2, // Border width
+                ),
+              ),
+              fillColor: Color.fromARGB(255, 255, 255, 255),
+              filled: true,
+              hintText: 'Enter Number', // Placeholder text
+              hintStyle: TextStyle(color: Colors.grey), // Placeholder text style
+              contentPadding: EdgeInsets.all(10), // Inner padding
             ),
           ),
-        ),
-        SizedBox(
-          width: 15,
         ),
       ],
     );
