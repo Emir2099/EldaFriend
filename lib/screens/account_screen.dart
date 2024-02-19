@@ -48,7 +48,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text('Set Up SOS',
+          title: Text('Settings',
             style: TextStyle(
               color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 30,
