@@ -128,7 +128,6 @@ print(_result);
                             value.getphone().toString());
                       });
                       List<String> numbers = [];
-
                       updateSOS.numbers.forEach(
                         (key, value) {
                           if (value.getphone().toString() != "") {

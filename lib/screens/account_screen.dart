@@ -1,7 +1,9 @@
 import 'package:medtrack/helper/helper_function.dart';
+import 'package:medtrack/homePage.dart';
 import 'package:medtrack/openPage.dart';
 import 'package:medtrack/pages/about.dart';
 import 'package:medtrack/pages/dash.dart';
+import 'package:medtrack/pages/help.dart';
 import 'package:medtrack/screens/edit_screen.dart';
 import 'package:medtrack/servies/auth.dart';
 import 'package:medtrack/widgets/forward_button.dart';
@@ -249,7 +251,14 @@ class _AccountScreenState extends State<AccountScreen> {
                       icon: Ionicons.help_circle_outline,
                       bgColor: Colors.pink.shade100,
                       iconColor: Colors.pink,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HelpPage(),
+                            ),
+                          );
+                      },
                     ),
                     Divider(),
                     const SizedBox(height: 10),

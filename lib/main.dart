@@ -1,4 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:medtrack/Community/screens/home_screen.dart';
@@ -9,11 +9,13 @@ import 'package:medtrack/openPage.dart';
 import 'package:medtrack/pages/about.dart';
 import 'package:medtrack/pages/dash.dart';
 import 'package:medtrack/pages/elderlayout.dart';
+import 'package:medtrack/pages/help.dart';
 import 'package:medtrack/provider/theme_provider.dart';
 import 'package:medtrack/register.dart';
 import 'package:medtrack/homePage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:medtrack/settingsSOS.dart';
+import 'package:medtrack/test_noti.dart';
 import 'package:medtrack/updateSoS.dart';
 import 'package:medtrack/geminiapi/bot.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,7 @@ void main() async {
   try {
     await Firebase.initializeApp();
     WidgetsFlutterBinding.ensureInitialized();
+    await FirebaseApi().initializeNotifications();
     await initializeNotifications();
   } catch (e) {
     print(e);
@@ -80,6 +83,7 @@ class MyApp extends StatelessWidget {
               'about':(context) => AboutPage(),
               // 'expensepage': (context) => ExpenseHomePage(fullname: dataOfUser['name'],),
               // 'community':(context) => HomeScreen(),
+              'help': (context) => HelpPage(),
             },
           );
         });
