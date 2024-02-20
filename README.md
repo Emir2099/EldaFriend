@@ -4,9 +4,9 @@ Eldafriend, A pal for the elder community!
 Track your medication, along with reminders and many showstopper features that ensure completely homely care.
 
 
-Dashboard            |  Medicine Tracker          |  Reports
-:-------------------------:|:-------------------------:|:-------------------------:
-![Dashboard](screenShots/dashpage.png)  |  ![Medicine Tracker](screenShots/medicine_page.png.png) |  ![Reports](screenShots/sos_img.png)
+Dashboard            |  Medicine Tracker          | 
+:-------------------------:|:-------------------------:|
+![Dashboard](screenShots/dashpage.png)  |  ![Medicine Tracker](screenShots/medicine_page.png.png) |  
 
 
 
