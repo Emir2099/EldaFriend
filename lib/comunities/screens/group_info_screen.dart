@@ -105,21 +105,24 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
     );
   }
 
-  Widget memberList() {
-    return StreamBuilder(
-      stream: members,
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data['members'] != null) {
-            if (snapshot.data['members'].length != 0) {
-              return ListView.builder(
-                itemCount: snapshot.data['members'].length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final String userId =
-                      snapshot.data['members'][index].split("_")[0];
-                  final String username =
-                      snapshot.data['members'][index].split("_")[1];
+Widget memberList() {
+  return StreamBuilder(
+    stream: members,
+    builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      if (snapshot.hasData) {
+        if (snapshot.data!['members'] != null) {
+          if (snapshot.data!['members'].length != 0) {
+            return ListView.builder(
+              itemCount: snapshot.data!['members'].length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final memberData = snapshot.data!['members'][index];
+                if (memberData is String && memberData.contains('_')) {
+                  final parts = memberData.split("_");
+                  final String userId = parts[0];
+                  // final String username = parts.length > 1 ? parts[1] : '';
+                  final String username = parts[1];
+                  print("thidssss daaa nameeee$username");
                   return Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 5,
@@ -135,13 +138,15 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                       subtitle: Text(userId),
                     ),
                   );
-                },
-              );
-            } else {
-              return const Center(
-                child: Text("No Members Found"),
-              );
-            }
+                } else {
+                  // handle the case where memberData is not a string or doesn't contain '_'
+                  return ListTile(
+                    title: Text('Invalid member data'),
+                    subtitle: Text(memberData.toString()),
+                    );
+                }
+              },
+            );
           } else {
             return const Center(
               child: Text("No Members Found"),
@@ -149,13 +154,18 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
           }
         } else {
           return const Center(
-            child: CircularProgressIndicator(
-              backgroundColor: kprimaryColor,
-              color: Colors.transparent,
-            ),
+            child: Text("No Members Found"),
           );
         }
-      },
-    );
-  }
+      } else {
+        return const Center(
+          child: CircularProgressIndicator(
+            backgroundColor: kprimaryColor,
+            color: Colors.transparent,
+          ),
+        );
+      }
+    },
+  );
+}
 }

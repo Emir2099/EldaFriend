@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:medtrack/servies/database.dart';
 import 'package:medtrack/worngDialgo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -236,7 +237,7 @@ class _OpenPageState extends State<OpenPage> {
                                     child: IconButton(
                                         color: Colors.white,
                                         onPressed: () async {
-                                          final user = signIn(email, password);
+                                          final user = await signIn(email, password);
                                           // print(user);
                                           setState(() {
                                             showSpinner = true;
@@ -257,7 +258,6 @@ class _OpenPageState extends State<OpenPage> {
                                             // setFCM(email);
                                              // print("hello world");
                                             // print(user.user!.displayName);
-
                                             if (user != null) {
                                               await saveLoginStatus();
                                               Navigator.pushNamed(
@@ -265,9 +265,26 @@ class _OpenPageState extends State<OpenPage> {
                                                 'dashboard',
                                               );
                                             }
-                                            setState(() {
+                                            
+                                            else{
+                                              setState(() {
                                               showSpinner = false;
                                             });
+                                              showDialog(context: context, builder: (builder) {
+                                                return AlertDialog(
+                                                  title: Text("Error"),
+                                                  content: Text("Email or password is incorrect"),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                      child: Text("Ok"),
+                                                    ),
+                                                  ],
+                                                );
+                                              });
+                                            }
                                           },
                                           // } catch (e) {
                                           //   setState(() {

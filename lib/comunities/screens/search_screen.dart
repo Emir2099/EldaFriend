@@ -16,25 +16,39 @@ class SearchScreen extends StatefulWidget {
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
-
+ final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  User? user = _auth.currentUser;
 class _SearchScreenState extends State<SearchScreen> {
+ 
   final TextEditingController _searchController = TextEditingController();
   bool isLoading = false;
   QuerySnapshot? groupLists;
   bool hasGroupList = false;
   String? username = "";
-  User? user;
   bool isJoined = false;
-
+  
   @override
   void initState() {
-    getCurrentusernameAndId();
+    // getCurrentusernameAndId();
+    getUserData();
     super.initState();
   }
 
   String getName(String value) {
     return value.split("_")[1];
   }
+  void getUserData() async {
+
+    final events =
+        await _firestore.collection('users').doc(user?.uid).get();
+    if (events != null) {
+      
+      setState(() {
+        username = events['fullName'];
+      });
+    }
+   }
 
   void getCurrentusernameAndId() {
     setState(() {
@@ -70,7 +84,7 @@ class _SearchScreenState extends State<SearchScreen> {
         itemBuilder: (context, index) {
           Database(uid: FirebaseAuth.instance.currentUser!.uid)
               .isUserJoined(groupLists!.docs[index]['groupId'],
-                  groupLists!.docs[index]['groupName'], username!)
+                  groupLists!.docs[index]['groupName'], username!)  
               .then((value) {
             setState(() {
               isJoined = value;
