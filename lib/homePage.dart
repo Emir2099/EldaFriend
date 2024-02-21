@@ -176,29 +176,12 @@ Widget build(BuildContext context) {
         ),
       ),
           actions: [
-            // Row(
-            //   children: [
-            //     IconButton(
-            //       icon: Icon(Icons.notifications),
-            //       onPressed: () async {
-            //         await getTheMedicines();
-            //       },
-            //     ),
-            //   IconButton(
-            //       icon: Icon(Icons.history),
-            //       onPressed: () {
-            //         Navigator.pushNamed(context, 'history');
-            //       },
-            //     ),
-            //   ],
-            // ),
-
             Row(
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                shape: CircleBorder(), // This makes the button round
-                primary: Colors.white, // This is the button color
+                shape: CircleBorder(), 
+                primary: Colors.white, 
               ),
               onPressed: () async {
                 await getTheMedicines();
@@ -207,8 +190,8 @@ Widget build(BuildContext context) {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                shape: CircleBorder(), // This makes the button round
-                primary: Colors.white, // This is the button color
+                shape: CircleBorder(), 
+                primary: Colors.white, 
               ),
               onPressed: () {
                 Navigator.pushNamed(context, 'history');
@@ -371,31 +354,6 @@ Widget build(BuildContext context) {
           const SizedBox(
             height: 20,
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(bottom: 60),
-          //   child: SizedBox(
-          //     width: MediaQuery.of(context).size.width * 0.8,
-          //     height: MediaQuery.of(context).size.height * 0.07,
-          //     child: ElevatedButton(
-          //       onPressed: () {},
-          //       style: ElevatedButton.styleFrom(
-          //         primary: _Colors['orange'],
-          //         elevation: 10,
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(8),
-          //         ),
-          //       ),
-          //       child: const Text(
-          //         'Add a Medicine',
-          //         style: TextStyle(
-          //           color: Colors.white,
-          //           fontSize: 23,
-          //           fontWeight: FontWeight.bold,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -451,7 +409,7 @@ Widget build(BuildContext context) {
       final int notificationId = 0; // Unique ID for the notification
       tz.initializeTimeZones(); // Initialize time zone data
       tz.setLocalLocation(tz.getLocation(
-          'India/Kolkata')); // Replace 'YOUR_TIME_ZONE_HERE' with the desired time zone, e.g., 'America/New_York'
+          'India/Kolkata')); 
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
           AndroidNotificationDetails(
         'reminder_channel_id',

@@ -60,65 +60,6 @@ class _graphsState extends State<graphs> {
     return sumByPillName;
   }
 
-  // Widget virtical_chart(Map MED, List<double> barChartData) {
-  //   return BarChart(
-  //     BarChartData(
-  //       alignment: BarChartAlignment.spaceAround,
-  //       maxY: 1000,
-  //       barTouchData: BarTouchData(enabled: false),
-  //       titlesData: FlTitlesData(
-  //         leftTitles: SideTitles(
-  //           showTitles: true,
-  //           getTextStyles: (value) =>
-  //               const TextStyle(color: Colors.blueGrey, fontSize: 12),
-  //           getTitles: (value) {
-  //             return value.toInt().toString();
-  //           },
-  //           margin: 8,
-  //           reservedSize: 30,
-  //         ),
-  //         bottomTitles: SideTitles(
-  //           showTitles: true,
-  //           getTextStyles: (value) =>
-  //               const TextStyle(color: Colors.blueGrey, fontSize: 12),
-  //           getTitles: (value) {
-  //             final List<String> barChartData_ml_pillname =
-  //                 MED.keys.toList() as List<String>;
-
-  //             for (int i = 0; i < barChartData_ml_pillname.length; i++) {
-  //               if (value.toInt() == i) {
-  //                 return barChartData_ml_pillname[i];
-  //               }
-  //             }
-
-  //             return "";
-  //           },
-  //         ),
-  //       ),
-  //       gridData: FlGridData(show: false),
-  //       borderData: FlBorderData(show: false),
-  //       barGroups: barChartData
-  //           .asMap()
-  //           .map(
-  //             (index, value) => MapEntry(
-  //               index,
-  //               BarChartGroupData(
-  //                 x: index,
-  //                 barRods: [
-  //                   BarChartRodData(
-  //                     y: value,
-  //                     colors: [Colors.blue],
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           )
-  //           .values
-  //           .toList(),
-  //     ),
-  //   );
-  // }
-
 
 Widget virtical_chart(Map MED, List<double> barChartData, double maxY) {
     return BarChart(
@@ -224,7 +165,6 @@ Widget virtical_chart(Map MED, List<double> barChartData, double maxY) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar: buttomBar.buttomAppBar_app(context),
       appBar: PreferredSize(
     preferredSize: Size.fromHeight(70),
     child: Container(
@@ -310,129 +250,125 @@ Widget virtical_chart(Map MED, List<double> barChartData, double maxY) {
     }
   });
   double maxY_mg = maxValuemg + 50;        
-            //double maxY_ml = ml_med.expand((med) => med.values).reduce(max) + 50;
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(16.0),
               child: Expanded(
                 child: SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Text(widget.meds.toString()),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        if(ml_med.isNotEmpty) ...[
-                        Text(
-                          "Bar Chart",
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      if(ml_med.isNotEmpty) ...[
+                      Text(
+                        "Bar Chart",
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                      Text("To show",
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                        Text("To show",
-                            style: TextStyle(
-                                color: Colors.black38,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold)),
-                        Text("The consumption of medicine in milliliters (ml)"),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        virtical_chart(ML_MED, barChartData_ml, maxY_ml),
-                        ],
-                        SizedBox(
-                          height: 20,
-                        ),
-                        if(mg_med.isNotEmpty) ...[
-                        Text(
-                          "Bar Chart",
+                              color: Colors.black38,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                      Text("The consumption of medicine in milliliters (ml)"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      virtical_chart(ML_MED, barChartData_ml, maxY_ml),
+                      ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      if(mg_med.isNotEmpty) ...[
+                      Text(
+                        "Bar Chart",
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                      Text("To show",
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                        Text("To show",
+                              color: Colors.black38,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                      Text("The consumption of medicine in milligrams (mg)"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      virtical_chart(MG_MED, barChartData_mg,maxY_mg),
+                      ],
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          if(ml_med.isNotEmpty) ...[
+                          Text(
+                            "Pie Chart",
                             style: TextStyle(
-                                color: Colors.black38,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold)),
-                        Text("The consumption of medicine in milligrams (mg)"),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        virtical_chart(MG_MED, barChartData_mg,maxY_mg),
-                        ],
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            if(ml_med.isNotEmpty) ...[
-                            Text(
-                              "Pie Chart",
+                                fontSize: 30, fontWeight: FontWeight.bold),
+                          ),
+                          Text("To show",
                               style: TextStyle(
-                                  fontSize: 30, fontWeight: FontWeight.bold),
-                            ),
-                            Text("To show",
-                                style: TextStyle(
-                                    color: Colors.black38,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                            Text(
-                                "The Percentage of medicines in milliliters (ml)"),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              height: 250,
-                              child: PieChart(
-                                PieChartData(
-                                  sections: bie_data_func(ML_MED),
-                                  borderData: FlBorderData(show: false),
-                                  centerSpaceRadius: 30,
-                                  sectionsSpace: 0,
-                                ),
+                                  color: Colors.black38,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
+                          Text(
+                              "The Percentage of medicines in milliliters (ml)"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: 250,
+                            child: PieChart(
+                              PieChartData(
+                                sections: bie_data_func(ML_MED),
+                                borderData: FlBorderData(show: false),
+                                centerSpaceRadius: 30,
+                                sectionsSpace: 0,
                               ),
                             ),
-                          ]
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        if(mg_med.isNotEmpty) ...[
-                        Text(
-                          "Pie Chart",
+                          ),
+                        ]
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      if(mg_med.isNotEmpty) ...[
+                      Text(
+                        "Pie Chart",
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                      Text("To show",
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                        Text("To show",
-                            style: TextStyle(
-                                color: Colors.black38,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold)),
-                        Text("The Percentage of medicines in milligrams (mg)"),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 250,
-                          child: PieChart(
-                            PieChartData(
-                              sections: bie_data_func(MG_MED),
-                              borderData: FlBorderData(show: false),
-                              centerSpaceRadius: 30,
-                              sectionsSpace: 0,
-                            ),
+                              color: Colors.black38,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                      Text("The Percentage of medicines in milligrams (mg)"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 250,
+                        child: PieChart(
+                          PieChartData(
+                            sections: bie_data_func(MG_MED),
+                            borderData: FlBorderData(show: false),
+                            centerSpaceRadius: 30,
+                            sectionsSpace: 0,
                           ),
                         ),
-                        ]
-                      ],
-                    ),
+                      ),
+                      ]
+                    ],
                   ),
                 ),
               ),

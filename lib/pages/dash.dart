@@ -1,19 +1,17 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medtrack/comunities/screens/home_screen.dart';
-// import 'package:medtrack/Community/screens/home_screen.dart';
 import 'package:medtrack/geminiapi/bot.dart';
 import 'package:medtrack/graphs.dart';
 import 'package:medtrack/helper/helper_function.dart';
 import 'package:medtrack/homePage.dart';
 import 'package:medtrack/medications.dart';
-// import 'package:medtrack/newCard.dart';
 import 'package:medtrack/openPage.dart';
 import 'package:medtrack/pages/elderlayout.dart';
 import 'package:medtrack/pages/expense_home.dart';
+import 'package:medtrack/pages/help.dart';
 
 import 'package:medtrack/screens/main_settings_screen.dart';
 import 'package:medtrack/servies/auth.dart';
@@ -131,10 +129,9 @@ Future<String> getGlobalPin() async {
     });
     var day = selectedDay.day;
     var month = selectedDay.month;
-    // dataOfTakedMed = [];
     await FirebaseFirestore.instance
         .collection('Taked')
-        .where('takedDate', isEqualTo: DateFormat("dd.MM.yy").format(selectedDay))
+        .where('takedDate', isEqualTo: DateFormat("dd.MM.yy").format(selectedDay)).where('usermail',isEqualTo: user!.email)
         .get()
         .then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -223,21 +220,12 @@ Future<String> getGlobalPin() async {
                           child: 
                           GestureDetector(
                             onTap: () {
-                              Auth().signoutUser().whenComplete(() async {
-                  await HelperFunction
-                      .saveUserLoggedInStatusToSharedPreferences(false);
-                  await HelperFunction.saveUsernameToSharedPreferences("");
-                  await HelperFunction.saveUserEmailToSharedPreferences("");
-                  Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>  OpenPage(),
-      ),
-    );
-                });
-                            },
+                  Navigator.pushReplacement( context,MaterialPageRoute( builder: (context) =>  HelpPage(),),);
+     
+                },
+                            
                             child: Icon(
-                              Icons.logout,
+                              Icons.question_mark_sharp,
                               color: Colors.white,
                             ),
                           ),
@@ -253,6 +241,7 @@ Future<String> getGlobalPin() async {
             ),
             Padding(
   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+  
   child: Container(
     height: 40,
     width: double.infinity,
@@ -267,8 +256,7 @@ Future<String> getGlobalPin() async {
         width: 400,
         backgroundColor: Colors.grey.shade800,
         foregrondColor: Color.fromARGB(255, 26, 233, 8),
-
-        ratio:datalisttaked.isEmpty ? 0 : datalisttaked.length.toDouble() / medInDate.length.toDouble(),
+        ratio:datalisttaked.isEmpty ? 0/1 : datalisttaked.length.toDouble() / medInDate.length.toDouble(),
        // calculate the ratio
         direction: Axis.horizontal,
         curve: Curves.fastLinearToSlowEaseIn,
@@ -292,32 +280,6 @@ Future<String> getGlobalPin() async {
     ),
   ),
 ),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-            //   child: Container(
-            //     height: 40,
-            //         width: double.infinity,
-            //     child: Card(
-            //       elevation: 12.0,
-            //           margin: EdgeInsets.only(
-            //               right: 10, left: 10, bottom: 16.0),
-            //           clipBehavior: Clip.antiAlias,
-            //           shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              
-            //       child: WaveWidget(
-            //       config: CustomConfig(
-            //           colors: _colors,
-            //           durations: _durations,
-            //           heightPercentages: _heightPercentages,
-            //       ),
-            //       backgroundColor: _backgroundColor,
-            //       size: Size(double.infinity, double.infinity),
-            //       waveAmplitude: 0.1,
-            //                     ),
-            //     ),
-            //   ),
-            // ),
             SizedBox(
               height: 25,
             ),
@@ -369,7 +331,7 @@ Future<String> getGlobalPin() async {
                     curve: Curves.easeOut,
                     child: Transform.translate(
                       offset: Offset(0, _isPressed1 ? 10 : 0),
-                      child: Icon1(), // replace with your Icon1
+                      child: Icon1(), 
                     ),
                   ),
                 ),
@@ -401,7 +363,7 @@ Future<String> getGlobalPin() async {
                     curve: Curves.easeOut,
                     child: Transform.translate(
                       offset: Offset(0, _isPressed2 ? 10 : 0),
-                      child: Icon2(), // replace with your Icon2
+                      child: Icon2(), 
                     ),
                   ),
                 ),
@@ -433,7 +395,7 @@ Future<String> getGlobalPin() async {
                     curve: Curves.easeOut,
                     child: Transform.translate(
                       offset: Offset(0, _isPressed3 ? 10 : 0),
-                      child: Icon3(), // replace with your Icon3
+                      child: Icon3(), 
                     ),
                   ),
                 ),
@@ -465,7 +427,7 @@ Future<String> getGlobalPin() async {
                     curve: Curves.easeOut,
                     child: Transform.translate(
                       offset: Offset(0, _isPressed4 ? 10 : 0),
-                      child: Icon4(), // replace with your Icon2
+                      child: Icon4(), 
                     ),
                   ),
                 ),
@@ -524,7 +486,7 @@ Future<String> getGlobalPin() async {
     });
     String globalPin = await getGlobalPin(); // Get the global pin
     print("GLOBAL PIN IS ${globalPin}");
-    if (globalPin == '000') { // Check if the global pin is the default one
+    if (globalPin == '000') { 
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -620,15 +582,10 @@ Future<String> getGlobalPin() async {
     setState(() {
       _isPressedB3 = false;
     });
-    // Navigator.pushAndRemoveUntil(context, graphs(), (route) => false)
     Navigator.of(context).pushAndRemoveUntil(
   MaterialPageRoute(builder: (context) => graphs()),
   (Route<dynamic> route) => false,
 );
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => graphs()),
-    // );
   },
   child: Transform.translate(
     offset: Offset(0, _isPressedB3 ? 10 : 0),

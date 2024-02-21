@@ -14,11 +14,6 @@ import 'package:medtrack/newCard.dart';
 import 'package:medtrack/pages/dash.dart';
 
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-// import 'package:table_calendar/table_calendar.dart';
-// import 'package:intl/intl.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:timezone/data/latest_all.dart' as tz;
-// import 'package:timezone/timezone.dart' as tz;
 
 class History extends StatefulWidget {
   @override

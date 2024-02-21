@@ -35,7 +35,6 @@ class PrimaryInput extends StatelessWidget {
         hintStyle: const TextStyle(
           color: kWhiteColor,
         ),
-        // enabled: underlineInputBorder
         border: underlineInputBorder
             ? const UnderlineInputBorder()
             : InputBorder.none,

@@ -12,7 +12,7 @@ class AboutPage extends StatelessWidget {
       return await _getDirectorySize(cacheDir);
     } catch (e) {
       print('Error calculating cache size: $e');
-      return 0; // Return 0 in case of any error
+      return 0;
     }
   }
 

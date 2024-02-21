@@ -6,12 +6,10 @@ class Icon2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Card(
-        
-        elevation: 5.0, // Change this value to adjust the elevation
+        elevation: 5.0, 
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
+          borderRadius: BorderRadius.circular(12), 
         ),
-    // padding: EdgeInsets.all(16),
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Center(

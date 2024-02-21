@@ -69,7 +69,6 @@ class _SettingsState extends State<settingsSOS> {
       ),
     ),
   ),
-      // bottomNavigationBar: model_x.buttomAppBar_app(context),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Container(
@@ -102,10 +101,6 @@ class _SettingsState extends State<settingsSOS> {
                       )),
                 ),
               )
-              // CircleAvatar(
-              //   radius: MediaQuery.of(context).size.width * 0.4,
-              //   backgroundImage: AssetImage("assets/set.jpg"),
-              // )
             ],
           ),
         ),

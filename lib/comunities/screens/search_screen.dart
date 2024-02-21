@@ -30,7 +30,6 @@ class _SearchScreenState extends State<SearchScreen> {
   
   @override
   void initState() {
-    // getCurrentusernameAndId();
     getUserData();
     super.initState();
   }
@@ -67,8 +66,6 @@ class _SearchScreenState extends State<SearchScreen> {
       Database().searchGroupByName(_searchController.text).then((value) {
         setState(() {
           groupLists = value;
-          // print(value.docs);
-          // print(groupLists!.docs);
           hasGroupList = true;
           isLoading = false;
         });

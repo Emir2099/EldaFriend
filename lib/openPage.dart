@@ -41,28 +41,14 @@ class _OpenPageState extends State<OpenPage> {
   }
   return null;
 }  
-///////////////
   Future<void> saveLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLoggedIn', true);
   }
-
-  // Check if the user is already logged in
-  // Future<bool> isLoggedIn() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   return prefs.getBool('isLoggedIn') ?? false;
-  // }
-////////////////////////
   @override
   Widget build(BuildContext context) {
         double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    //  Check if the user is already logged in
-  // isLoggedIn().then((loggedIn) {
-  //   if (loggedIn) {
-  //     Navigator.pushNamed(context, 'dashboard');
-  //   }
-  // });
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -134,7 +120,6 @@ class _OpenPageState extends State<OpenPage> {
                                     Icons.email,
                                     color: Color.fromARGB(255, 62, 37, 233),
                                   ),
-                                  //hintText: 'Enter your email',
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 20.0),
                                   border: OutlineInputBorder(
@@ -197,7 +182,6 @@ class _OpenPageState extends State<OpenPage> {
                                     Icons.lock,
                                     color: Color.fromARGB(255, 62, 37, 233),
                                   ),
-                                  //hintText: 'Enter your password.',
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 20.0),
                                   border: const OutlineInputBorder(
@@ -240,26 +224,13 @@ class _OpenPageState extends State<OpenPage> {
                                         color: Colors.white,
                                         onPressed: () async {
                                           final user = await signIn(email, password);
-                                          // print(user);
                                           setState(() {
                                             showSpinner = true;
                                           });
-                                          // if (!_formkey.currentState!
-                                          //     .validate()) {
-                                          //   return;
-                                          // }
-                                          // try {
-                                          //   final user = await _auth
-                                          //       .signInWithEmailAndPassword(
-                                          //           email: email,
-                                          //           password: password);
                                             final dataUser = await _firestore
                                                 .collection('userData')
                                                 .doc(email)
                                                 .get();
-                                            // setFCM(email);
-                                             // print("hello world");
-                                            // print(user.user!.displayName);
                                             if (user != null) {
                                               await saveLoginStatus();
                                               Navigator.pushNamed(
@@ -288,22 +259,6 @@ class _OpenPageState extends State<OpenPage> {
                                               });
                                             }
                                           },
-                                          // } catch (e) {
-                                          //   setState(() {
-                                          //     showSpinner = false;
-                                          //   });
-                                          //   showDialog<String>(
-                                          //       context: context,
-                                          //       builder:
-                                          //           (BuildContext context) =>
-                                          //               worngDialgo(
-                                          //                 text:
-                                          //                     e.toString(),
-                                          //                 type: "worng",
-                                          //               ));
-                                          //   print(e);
-                                          // }
-                                        // },
                                         icon: Icon(
                                           Icons.arrow_forward,
                                         )),
@@ -331,16 +286,6 @@ class _OpenPageState extends State<OpenPage> {
                                     ),
                                     style: ButtonStyle(),
                                   ),
-                                  // TextButton(
-                                  //     onPressed: () {},
-                                  //     child: Text(
-                                  //       'Forgot Password',
-                                  //       style: TextStyle(
-                                  //         decoration: TextDecoration.underline,
-                                  //         color: Color(0xff4c505b),
-                                  //         fontSize: 18,
-                                  //       ),
-                                  //     )),
                                 ],
                               )
                             ],

@@ -66,6 +66,7 @@ dependencies:
   expandable_search_bar: ^0.0.2
   animated_search: ^0.0.5
   firebase_messaging: ^14.7.16
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:

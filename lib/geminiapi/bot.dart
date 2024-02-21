@@ -86,9 +86,6 @@ class _BotHomeState extends State<BotHome> {
   ),
       floatingActionButton:speaking? FloatingActionButton(
         child: Icon(Icons.volume_off),
-        // style: ElevatedButton.styleFrom(
-        //   backgroundColor: Colors.blue[300], // This needed to be fixed
-        // ),
         backgroundColor: Colors.blue[300],
         onPressed: () async {
           await stopSpeaking();
@@ -102,32 +99,6 @@ class _BotHomeState extends State<BotHome> {
           padding: EdgeInsets.only(top: paddingValue),
           child: Column(
             children: [
-              // Center(
-              //   child: Column(
-              //     // mainAxisAlignment: MainAxisAlignment.center,
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     children: [
-              //     const Text(
-              //       'Gemini BOT',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 24,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //       SizedBox(
-              //         height: paddingValue,
-              //       ),
-              //       Text(
-              //         'Enter your query',
-              //         style: TextStyle(color: Colors.blue[100]),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: paddingValue,
-              // ),
               Padding(
                 padding: EdgeInsets.only(left: paddingValue, right: paddingValue),
                 child: Container(
@@ -224,7 +195,6 @@ class _BotHomeState extends State<BotHome> {
                         heightPercentages: _heightPercentages,
                     ),
                     backgroundColor: _backgroundColor,
-                    // size: (double.infinity, double.infinity),
                     size: Size(double.infinity, double.infinity),
                     waveAmplitude: 5,
                                   ),

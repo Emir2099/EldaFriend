@@ -7,11 +7,10 @@ class Icon3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Card(
         
-        elevation: 5.0, // Change this value to adjust the elevation
+        elevation: 5.0, 
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Change this value to change the border radius
+          borderRadius: BorderRadius.circular(12), 
         ),
-    // padding: EdgeInsets.all(16),
     child: Padding(
       padding: EdgeInsets.all(16.0),
       child: Center(

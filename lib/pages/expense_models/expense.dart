@@ -8,7 +8,6 @@ class Expense {
   final double amount;
   final DateTime date;
   final String docId;
-  // final User user_name;
 
 Expense({
   required this.id,
@@ -16,6 +15,5 @@ Expense({
   required this.amount,
   required this.date,
   required this.docId
-  // required this.user_name
 });
 }

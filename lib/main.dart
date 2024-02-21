@@ -1,7 +1,8 @@
-// import 'package:awesome_notifications/awesome_notifications.dart';
+
+import 'package:device_preview/device_preview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:medtrack/Community/screens/home_screen.dart';
 import 'package:medtrack/graphs.dart';
 import 'package:medtrack/history.dart';
 import 'package:medtrack/medications.dart';
@@ -55,7 +56,6 @@ Future<void> initializeNotifications() async {
 }
 
 class MyApp extends StatelessWidget {
-  // const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +81,6 @@ class MyApp extends StatelessWidget {
               'dashboard': (context) => DashPage(),
               'elderlayout':(context) => ElderPage(),
               'about':(context) => AboutPage(),
-              // 'expensepage': (context) => ExpenseHomePage(fullname: dataOfUser['name'],),
-              // 'community':(context) => HomeScreen(),
               'help': (context) => HelpPage(),
             },
           );
@@ -99,12 +97,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var auth = FirebaseAuth.instance;
+  var isLogin = false;
+
+  checkIfLogin() async {
+    auth.authStateChanges().listen((User? user) {
+        if(user != null && mounted) {
+          setState(() {
+            isLogin = true;
+          });
+        }
+    });
+  }
+
+@override
+  void initState() {
+    checkIfLogin();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: //AuthService().handleAuthState(),
-            OpenPage(),
+      child:
+            isLogin ? DashPage() : OpenPage(),
     ));
   }
 }

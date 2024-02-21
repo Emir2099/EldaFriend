@@ -28,7 +28,7 @@ class GeminiAPI {
       String url =
           'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${'AIzaSyCxzhPIu3nAQnpW-eY8YooOQVnT3DhcEhE'}';
 
-      // Use the variables 'header', 'requestBody', and 'url' in your code
+      // Use the variables 'header', 'requestBody', and 'url' in code
 
       // return 'Success'; // Return a meaningful value or result
 

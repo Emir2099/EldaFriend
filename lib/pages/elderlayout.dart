@@ -33,13 +33,13 @@ class _ElderPageState extends State<ElderPage> {
     'Call': Colors.white,
     'Message': Colors.white,
     'Email': Colors.white,
-    'Switch Mode': Colors.white, // Add switch mode card color
+    'Switch Mode': Colors.white, 
   };
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false, // Prevent back navigation
+      onWillPop: () async => false, 
       child: Scaffold(
         appBar: AppBar(
           title: Text(title),
@@ -51,7 +51,6 @@ class _ElderPageState extends State<ElderPage> {
             _buildCard(Icons.message, 'Message', context),
             _buildCard(Icons.email, 'Email', context),
             _buildSwitchModeCard(Icons.switch_account, 'Switch Mode', context),
-            // Add more cards as needed
           ],
         ),
       ),
@@ -77,7 +76,6 @@ class _ElderPageState extends State<ElderPage> {
           case 'Email':
             Navigator.push(context, MaterialPageRoute(builder: (context) => DashPage()));
             break;
-          // Add more cases as needed
         }
 
         // Change color back after a short delay

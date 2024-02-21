@@ -1,5 +1,4 @@
 
-//import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:medtrack/pages/dash.dart';
@@ -55,7 +54,7 @@ class _MedicationsState extends State<Medications> {
       lat = position.latitude.toString();
       long = position.longitude.toString();
       setState(() {
-        // currentLocation = LatLng(position.latitude, position.longitude);
+        
 
         showSpinner = false;
       });
@@ -106,7 +105,6 @@ print(_result);
       ),
     ),
   ),
-      // bottomNavigationBar: model_x.buttomAppBar_app(context),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Container(
@@ -183,7 +181,6 @@ print(_result);
     Navigator.pushNamed(context, 'settingsSOS');
   },
   child: Icon(
-    // color: Colors.blue[600],
     Icons.settings,
     size: 40,
   ),

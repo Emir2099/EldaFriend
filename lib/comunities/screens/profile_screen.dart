@@ -100,8 +100,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 18,
                 ),
               ),
-              // contentPadding:
-              // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             ),
             ListTile(
               onTap: () {},
@@ -114,8 +112,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 18,
                 ),
               ),
-              // contentPadding:
-              // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             ),
             const Divider(
               color: kprimaryColor,
@@ -139,8 +135,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 18,
                 ),
               ),
-              // contentPadding:
-              // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             ),
           ],
         ),

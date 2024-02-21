@@ -29,15 +29,12 @@ User? user = _auth.currentUser;
 Future<String> getGlobalPin(User? user) async {
   final DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(user!.email).get();
   if (!doc.exists) {
-    // If the document does not exist, create it with a default globalPin
     await FirebaseFirestore.instance.collection('users').doc(user.email).set({'globalPin': '000'});
     return '000';
   } else if ((doc.data() as Map?)?.containsKey('globalPin') == false) {
-    // If the document exists but does not contain 'globalPin', add it
     await doc.reference.update({'globalPin': '000'});
     return '000';
   } else {
-    // If the document exists and contains 'globalPin', return it
     return doc.get('globalPin');
   }
 }
@@ -222,17 +219,13 @@ class _AccountScreenState extends State<AccountScreen> {
                       bgColor: Colors.red.shade100,
                       iconColor: Colors.red,
                       onTap: () {
-                        Auth().signoutUser().whenComplete(() async {
-                          await HelperFunction.saveUserLoggedInStatusToSharedPreferences(false);
-                          await HelperFunction.saveUsernameToSharedPreferences('');
-                          await HelperFunction.saveUserEmailToSharedPreferences('');
+                        Auth().signoutUser();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => OpenPage(),
                             ),
                           );
-                        });
                       },
                     ),
                   ],

@@ -209,7 +209,6 @@ class _MyRegisterState extends State<MyRegister> {
                                     password_conf = false;
                                   }
                                 });
-                                //Do something with the user input.
                               },
                               style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
@@ -295,12 +294,6 @@ class _MyRegisterState extends State<MyRegister> {
                                                     email: email,
                                                     password: password);
                                             if (newUser != null) {
-                                              // await _firestore
-                                              //     .collection("userData")
-                                              //     .doc(email)
-                                              //     .set({
-                                              //   'Fullname': Fullname,
-                                              // });
                                               await Database(uid: newUser.user!.uid).updateUserData(Fullname, email);
                                             }
 
@@ -320,8 +313,6 @@ class _MyRegisterState extends State<MyRegister> {
       MaterialPageRoute(builder: (context) => OpenPage()),
     );
   });
-
-                                            //Navigator.pushNamed(context, 'userpage');
                                           } else {
                                             showDialog<String>(
                                                 context: context,

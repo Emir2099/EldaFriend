@@ -112,7 +112,6 @@ class _HelpPageState extends State<HelpPage> {
     preferredSize: Size.fromHeight(70),
     child: Container(
       decoration: BoxDecoration(
-        // color: Colors.blue[600],
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -151,17 +150,6 @@ class _HelpPageState extends State<HelpPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // const Text(
-                    //   'Function Details',
-                    //   style: TextStyle(
-                    //     color: Colors.white,
-                    //     fontSize: 24,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: screenSize.height * 0.01,
-                    // ),
                     Text(
                       'Enter your query',
                       style: TextStyle(color: Colors.blue[100]),
@@ -192,9 +180,6 @@ class _HelpPageState extends State<HelpPage> {
                   },
                 ),
               ),
-              // SizedBox(
-              //   height: screenSize.height * 0.01,
-              // ),
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(

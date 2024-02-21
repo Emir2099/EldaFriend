@@ -31,7 +31,6 @@ var todaydate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
 class _newCardState extends State<newCard> {
   Offset? _tapPosition;
-  // bool _taked = false;
 bool taked = false;
   @override
   void initState() {
@@ -55,8 +54,6 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
     bool takedFromFirestore = data?['taked'];
     var takedDate = data?['takedDate'];
     print("taked or notttt$takedFromFirestore");
-    // print();
-    // print(DateTime.now());
     try 
     {
       print(DateFormat('yyyy-MM-dd').format(takedDate));
@@ -68,7 +65,6 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
     setState(() {
       taked = takedFromFirestore;
       datetakedmed = takedDate; 
-      // print("hihisihfsidhfiodshafos$_taked");
     });
   }
 }                          
@@ -155,10 +151,6 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
     (taked && (DateFormat('yyyy-MM-dd').format(datetakedmed) == DateFormat('yyyy-MM-dd').format(widget.date)))
         ? Color.fromARGB(255, 165, 238, 171)
         : Color.fromARGB(255, 241, 135, 128), // Second color
-                      // Color.fromARGB(255, 255, 255, 255), // First color
-                      // (!taked && (datetakedmed.toString() == widget.date))
-                      //     ? Color.fromARGB(255, 231, 146, 71)
-                      //     : Colors.cyan, // Second color
                     ],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
@@ -172,30 +164,24 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
                     children: <Widget>[
                       GestureDetector(
                         child: ListTile(
-                          // leading: Image.asset(
-                          //   "assets/images/${widget.dataOfPill['medForm']}.png",
-                          //   fit: BoxFit.cover,
-                          //   width: 55.0,
-                          // ),
      leading: Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(15.0), // Adjust as needed
+      borderRadius: BorderRadius.circular(15.0), 
       border: Border.all(
-        color: Colors.grey, // Choose the border color
-        width: 3.0, // Choose the border width
+        color: Colors.grey, 
+        width: 3.0,
       ),
     ),
     child: Material(
       elevation: 5.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0), // Adjust as needed
+        borderRadius: BorderRadius.circular(15.0), 
       ),
       clipBehavior: Clip.antiAlias,
       child: Image.asset(
         "assets/images/${widget.dataOfPill['medForm']}.png",
-        width: 50.0, // Adjust width as needed
-        height: 100.0, // Adjust height as needed
-        // fit: BoxFit.cover,
+        width: 50.0, 
+        height: 100.0, 
       ),
     ),
   ),
@@ -219,7 +205,7 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromARGB(255, 87, 87,
-                                        87), // Set the desired text color for the subtitle
+                                        87), 
                                   ),
                                 ),
                               ],
@@ -268,10 +254,10 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
           child: Text(
             'Delete',
             style: TextStyle(
-              color: Colors.red, // Customize the text color for "Delete"
-              fontSize: 16.0, // Customize the font size for "Delete"
+              color: Colors.red, 
+              fontSize: 16.0, 
               fontWeight:
-                  FontWeight.bold, // Customize the font weight for "Delete"
+                  FontWeight.bold,
             ),
           ),
         ),
@@ -280,10 +266,10 @@ print("thisssssssss is daateeeeeeeeee"+widget.dataOfPill['medTime'].toString() +
           child: Text(
             'Delete All',
             style: TextStyle(
-              color: Colors.red, // Customize the text color for "Delete"
-              fontSize: 16.0, // Customize the font size for "Delete"
+              color: Colors.red, 
+              fontSize: 16.0, 
               fontWeight:
-                  FontWeight.bold, // Customize the font weight for "Delete"
+                  FontWeight.bold, 
             ),
           ),
         ),

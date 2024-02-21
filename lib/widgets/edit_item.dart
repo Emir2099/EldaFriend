@@ -19,7 +19,6 @@ class EditItem extends StatelessWidget {
             width: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              // color: bgColor,
               border: Border.all(color: Colors.grey, width: 2.0),
             ),
 

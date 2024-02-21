@@ -15,7 +15,6 @@ class Auth {
           email: email, password: password);
 
       if (userCred.user != null) {
-        // return bool;
         return {"success": true, "user": userCred};
       }
       return {"success": false, "err": "Something went wrong"};
@@ -39,7 +38,6 @@ class Auth {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       if (userCred.user != null) {
-        // return bool;
         await Database(uid: userCred.user!.uid).updateUserData(fullName, email);
         return {"success": true};
       }

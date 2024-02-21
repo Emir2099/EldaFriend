@@ -1,5 +1,4 @@
 import 'dart:convert';
-//import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +24,6 @@ Map<String, Color> _Colors = {
 };
 
 class _updateSOSState extends State<updateSOS> {
-  // updateSOS temp = new updateSOS();
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
@@ -92,7 +90,7 @@ Widget build(BuildContext context) {
         ),
       ),
     ),
-    floatingActionButton: FloatingActionButton( // Add the FloatingActionButton
+    floatingActionButton: FloatingActionButton(
       backgroundColor: Colors.blue[600],
       onPressed: () {
         setState(() {
@@ -140,7 +138,7 @@ class _field_wState extends State<field_w> {
       children: [
         Text(widget.name + ": ", style: TextStyle(fontSize: 20)),
         SizedBox(
-          height: 10, // Adds some space between the Text and TextFormField
+          height: 10, 
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.09,
@@ -153,17 +151,17 @@ class _field_wState extends State<field_w> {
             },
             decoration: InputDecoration(
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15), // Rounded corners
+                borderRadius: BorderRadius.circular(15), 
                 borderSide: BorderSide(
-                  color: Colors.blue, // Border color
-                  width: 2, // Border width
+                  color: Colors.blue, 
+                  width: 2, 
                 ),
               ),
               fillColor: Color.fromARGB(255, 255, 255, 255),
               filled: true,
-              hintText: 'Enter Number', // Placeholder text
-              hintStyle: TextStyle(color: Colors.grey), // Placeholder text style
-              contentPadding: EdgeInsets.all(10), // Inner padding
+              hintText: 'Enter Number', 
+              hintStyle: TextStyle(color: Colors.grey), 
+              contentPadding: EdgeInsets.all(10),
             ),
           ),
         ),
