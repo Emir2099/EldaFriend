@@ -94,7 +94,29 @@ flutter:
   assets:
     - assets/images/
     - assets/
-  #   - images/a_dot_burr.jpeg
+    - screenShots/sos_img.png
+    - screenShots/elderMode/elder_page_img.png
+    - screenShots/elderMode/mode_pin_img.png
+    - screenShots/elderMode/pin_set_img.png
+    - screenShots/elderMode/switch_in_img.png
+    - screenShots/elderMode/settings_icon_img.png
+    - screenShots/medicineReminder/medicine_reminder_img.png
+    - screenShots/medicineReminder/medicine_reminder_layout_img.png
+    - screenShots/medicineReminder/medicine_add_img.png
+    - screenShots/medicineReminder/medicine_creation_img.png
+    - screenShots/medicineReminder/medicine_card_not_taken_img.png
+    - screenShots/medicineReminder/medicine_taken_card_img.png
+    - screenShots/medicineReminder/medicine_delete_img.png
+    - screenShots/medicineReports/report_button_img.png
+    - screenShots/medicineReports/report_layout_img.png
+    - screenShots/medicineReports/report_bar_chart_img.png
+    - screenShots/medicineReports/report_pie_chart_img.png
+    - screenShots/communityGroups/communities_button_img.png
+    - screenShots/communityGroups/group_layout_img.png
+    - screenShots/communityGroups/group_creation_img.png
+    - screenShots/communityGroups/in_group_layout_img.png
+    - screenShots/communityGroups/group_info_img.png
+    - screenShots/communityGroups/group_search_img.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

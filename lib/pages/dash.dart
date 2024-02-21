@@ -15,7 +15,7 @@ import 'package:medtrack/openPage.dart';
 import 'package:medtrack/pages/elderlayout.dart';
 import 'package:medtrack/pages/expense_home.dart';
 
-import 'package:medtrack/screens/account_screen.dart';
+import 'package:medtrack/screens/main_settings_screen.dart';
 import 'package:medtrack/servies/auth.dart';
 import 'package:medtrack/settingsSOS.dart';
 import 'package:medtrack/util/functions_tile.dart';
@@ -106,7 +106,6 @@ void initState() {
       dataList.sort((a, b) => a["medTime"].compareTo(b["medTime"]));
       print("this is the lengthhhhjkjkkj${dataList.length}");
       print(timeEvents);
-      print("the global pin is" + globalPin);
       medInDate = dataList;
       print("This the medddindateeee${medInDate.length}");
       timeEvents = Events;
@@ -121,6 +120,10 @@ void initState() {
       });
     });
   }
+Future<String> getGlobalPin() async {
+  final doc = await FirebaseFirestore.instance.collection('users').doc(user!.email).get();
+  return doc['globalPin'];
+}
 
   Future<void> getTheTakedMedicines() async {
     setState(() {
@@ -510,16 +513,18 @@ void initState() {
                         child: ListView(
                           children: [
                             GestureDetector(
-  onTapDown: (details) {
+ onTapDown: (details) {
     setState(() {
       _isPressedB1 = true;
     });
   },
-  onTapUp: (details) {
+  onTapUp: (details) async { // Make this callback async
     setState(() {
       _isPressedB1 = false;
     });
-    if (globalPin == '') {
+    String globalPin = await getGlobalPin(); // Get the global pin
+    print("GLOBAL PIN IS ${globalPin}");
+    if (globalPin == '000') { // Check if the global pin is the default one
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -535,12 +540,12 @@ void initState() {
           ],
         ),
       );
-    } else{
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ElderPage()),
-    );
-  }
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ElderPage()),
+      );
+    }
   },
   child: AnimatedContainer(
     duration: Duration(milliseconds: 200),

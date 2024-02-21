@@ -9,7 +9,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:http/http.dart' as http;
 
 import 'model.dart';
-import 'screens/account_screen.dart';
+import 'screens/main_settings_screen.dart';
 
 class settingsSOS extends StatefulWidget {
   @override

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medtrack/openPage.dart';
 import 'package:medtrack/servies/database.dart';
 import 'package:medtrack/worngDialgo.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -33,6 +34,8 @@ class _MyRegisterState extends State<MyRegister> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -90,7 +93,7 @@ class _MyRegisterState extends State<MyRegister> {
                                   ),
                                 )),
                             SizedBox(
-                              height: 30,
+                              height: screenHeight * 0.05,
                             ),
                             TextFormField(
                                 textInputAction: TextInputAction.next,
@@ -113,7 +116,7 @@ class _MyRegisterState extends State<MyRegister> {
                                     prefixIcon: Icon(Icons.email,
                                         color: Colors.white.withOpacity(0.7)))),
                             SizedBox(
-                              height: 30,
+                              height: screenHeight * 0.05,
                             ),
                             TextFormField(
                               textInputAction: TextInputAction.next,
@@ -185,7 +188,7 @@ class _MyRegisterState extends State<MyRegister> {
                               ),
                             ),
                             SizedBox(
-                              height: 30,
+                             height: screenHeight * 0.05,
                             ),
                             TextFormField(
                               obscureText: confirm_obscure,
@@ -262,7 +265,7 @@ class _MyRegisterState extends State<MyRegister> {
                                   : Text(''),
                             ),
                             SizedBox(
-                              height: 40,
+                              height: screenHeight * 0.02,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -309,7 +312,14 @@ class _MyRegisterState extends State<MyRegister> {
                                                           text:
                                                               'You have successfully signed up..',
                                                           type: "correct",
-                                                        ));
+                                                        )
+                                                        );
+                                                          Future.delayed(Duration(seconds: 3), () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => OpenPage()),
+    );
+  });
 
                                             //Navigator.pushNamed(context, 'userpage');
                                           } else {
@@ -346,7 +356,7 @@ class _MyRegisterState extends State<MyRegister> {
                               ],
                             ),
                             SizedBox(
-                              height: 40,
+                              height: screenHeight * 0.02,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

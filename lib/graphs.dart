@@ -246,7 +246,7 @@ Widget virtical_chart(Map MED, List<double> barChartData, double maxY) {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('History',
+        title: Text('Reports',
           style: TextStyle(
           
             color: Color.fromARGB(255, 255, 255, 255),

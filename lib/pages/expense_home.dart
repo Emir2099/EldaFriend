@@ -15,7 +15,6 @@ import 'dart:math' as math;
 
 import 'expense_components/my_list_tile.dart';
 
-
 int counter = 0;
 
 class ExpenseHomePage extends StatefulWidget {
@@ -30,28 +29,6 @@ class ExpenseHomePage extends StatefulWidget {
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
-
-class _ExpenseHomeScreenState extends State<ExpenseHomePage> {
-  
-  int selectedYear = DateTime.now().year;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Expenses',
-         style: TextStyle(
-          
-            color: Color.fromARGB(255, 255, 72, 72),
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-}
-
 
 class _ExpenseHomePageState extends State<ExpenseHomePage> {
   TextEditingController nameController = TextEditingController();
@@ -124,55 +101,55 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-         appBar: PreferredSize(
-    preferredSize: Size.fromHeight(70),
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.blue[600],
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-        ),
-      ),
-      child: AppBar(
-        leading: BackButton(
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => DashPage()),
-              (Route<dynamic> route) => false,
-            );
-          },
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text('Expenses',
-          style: TextStyle(
-          
-            color: Color.fromARGB(255, 255, 255, 255),
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(deviceHeight * 0.1),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.blue[600],
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          child: AppBar(
+            leading: BackButton(
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => DashPage()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Text('Expenses',
+              style: TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontSize: deviceWidth * 0.08,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
           ),
         ),
-         centerTitle: true,
       ),
-    ),
-  ),
       floatingActionButton: FloatingActionButton(
         onPressed: openNewExpenseBox,
         child: const Icon(Icons.add),
       ),
-      body: 
-      StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Expenses').doc(user!.email).collection('userExpenses').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
-      
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Stack(
               children: [
@@ -182,80 +159,78 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
               ],
             );
           }
-      
+
           if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
             double totalExpense = 0;
-  List<Expense> expenses = [];
-for (var doc in snapshot.data!.docs) {
-    var docData = doc.data() as Map<String, dynamic>;
-    totalExpense += docData['amount'];
+            List<Expense> expenses = [];
+            for (var doc in snapshot.data!.docs) {
+              var docData = doc.data() as Map<String, dynamic>;
+              totalExpense += docData['amount'];
 
-    expenses.add(
-      Expense(
-        docId: doc.id,
-        id: docData['id'],
-        name: docData['name'],
-        amount: docData['amount'],
-        date: (docData['date'] as Timestamp).toDate(),
-      ),
-    );
-  }
+              expenses.add(
+                Expense(
+                  docId: doc.id,
+                  id: docData['id'],
+                  name: docData['name'],
+                  amount: docData['amount'],
+                  date: (docData['date'] as Timestamp).toDate(),
+                ),
+              );
+            }
 
-  return SafeArea(
-    child: Column(
-      children: [
-         Text(
-          'Total Expense: \$${totalExpense.toStringAsFixed(2)}',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(8),
-            itemCount: snapshot.data!.docs.length,
-           // Inside the ListView.builder
-itemBuilder: (BuildContext context, int index) {
-  var doc = snapshot.data!.docs[index];
-  var docData = doc.data() as Map<String, dynamic>;
-  return Card(
-    shape: RoundedRectangleBorder(
-      side: BorderSide(color: Colors.grey, width: 1),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    
-    child: MyListTile(
-      title: docData['name'],
-      trailing: formatAmount(docData['amount']),
-      onEditPressed: (context) => openEditBox(Expense(
-        docId: doc.id,
-        id: docData['id'],
-        name: docData['name'],
-        amount: docData['amount'],
-        date: (docData['date'] as Timestamp).toDate(),
-      )),
-      onDelPressed: (context) => openDeleteBox(
-        Expense(
-          docId: doc.id,
-          id: docData['id'],
-          name: docData['name'],
-          amount: docData['amount'],
-          date: (docData['date'] as Timestamp).toDate(),
-        ),
-      ),
-    ),
-  );
-},
-          ),
-        ),
-      ],
-    ),
-  );
-} else {
-  return const Text('No data');
-}
+            return SafeArea(
+              child: Column(
+                children: [
+                  Text(
+                    'Total Expense: \$${totalExpense.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: deviceHeight * 0.01,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(8),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var doc = snapshot.data!.docs[index];
+                        var docData = doc.data() as Map<String, dynamic>;
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.grey, width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: MyListTile(
+                            title: docData['name'],
+                            trailing: formatAmount(docData['amount']),
+                            onEditPressed: (context) => openEditBox(Expense(
+                              docId: doc.id,
+                              id: docData['id'],
+                              name: docData['name'],
+                              amount: docData['amount'],
+                              date: (docData['date'] as Timestamp).toDate(),
+                            )),
+                            onDelPressed: (context) => openDeleteBox(
+                              Expense(
+                                docId: doc.id,
+                                id: docData['id'],
+                                name: docData['name'],
+                                amount: docData['amount'],
+                                date: (docData['date'] as Timestamp).toDate(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return const Text('No data');
+          }
         },
       ),
     );

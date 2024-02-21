@@ -55,6 +55,8 @@ class _OpenPageState extends State<OpenPage> {
 ////////////////////////
   @override
   Widget build(BuildContext context) {
+        double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     //  Check if the user is already logged in
   // isLoggedIn().then((loggedIn) {
   //   if (loggedIn) {
@@ -156,7 +158,7 @@ class _OpenPageState extends State<OpenPage> {
                                 ),
                               ),
                               SizedBox(
-                                height: 15,
+                                height: screenHeight * 0.02,
                               ),
                               TextFormField(
                                 obscureText: obscure,
@@ -219,7 +221,7 @@ class _OpenPageState extends State<OpenPage> {
                                 ),
                               ),
                               SizedBox(
-                                height: 20,
+                               height: screenHeight * 0.04,
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -309,7 +311,7 @@ class _OpenPageState extends State<OpenPage> {
                                 ],
                               ),
                               SizedBox(
-                                height: 50,
+                                height: screenHeight * 0.03,
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -329,16 +331,16 @@ class _OpenPageState extends State<OpenPage> {
                                     ),
                                     style: ButtonStyle(),
                                   ),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Forgot Password',
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Color(0xff4c505b),
-                                          fontSize: 18,
-                                        ),
-                                      )),
+                                  // TextButton(
+                                  //     onPressed: () {},
+                                  //     child: Text(
+                                  //       'Forgot Password',
+                                  //       style: TextStyle(
+                                  //         decoration: TextDecoration.underline,
+                                  //         color: Color(0xff4c505b),
+                                  //         fontSize: 18,
+                                  //       ),
+                                  //     )),
                                 ],
                               )
                             ],

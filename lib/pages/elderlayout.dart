@@ -1,8 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medtrack/homePage.dart';
 import 'package:medtrack/medications.dart';
 import 'package:medtrack/pages/dash.dart';
-import 'package:medtrack/screens/account_screen.dart';
+import 'package:medtrack/screens/main_settings_screen.dart';
+
+
+const String globalPin = 'globalPin';
+
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+User? user = _auth.currentUser;
+
+Future<String> getGlobalPin() async {
+  final doc = await FirebaseFirestore.instance.collection('users').doc(user!.email).get();
+  return doc.get(globalPin);
+}
 
 class ElderPage extends StatefulWidget {
   const ElderPage({Key? key}) : super(key: key);
@@ -85,52 +99,6 @@ class _ElderPageState extends State<ElderPage> {
       ),
     );
   }
-
-//   Widget _buildSwitchModeCard(IconData iconData, String text, BuildContext context) {
-//     return GestureDetector(
-//       onTap: () async {
-//         final pin = await _showPinDialog(context);
-//         if (pin == globalPin) {
-//           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashPage()));
-//         }
-//       },
-//       child: Card(
-//         color: cardColors[text],
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Icon(iconData, size: 70),
-//             Text(text, style: Theme.of(context).textTheme.bodyText1),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Future<String?> _showPinDialog(BuildContext context) {
-//     TextEditingController controller = TextEditingController();
-//     return showDialog<String>(
-//       context: context,
-//       builder: (context) {
-//         return AlertDialog(
-//           title: Text('Enter PIN'),
-//           content: TextField(
-//             controller: controller,
-//             keyboardType: TextInputType.number,
-//             decoration: InputDecoration(hintText: 'Enter PIN'),
-//           ),
-//           actions: <Widget>[
-//             TextButton(
-//               child: Text('OK'),
-//               onPressed: () {
-//                 Navigator.of(context).pop(controller.text);
-//               },
-//             ),
-//           ],
-//         );
-//       },
-//     );
-// }
 }
 
 class PinDialog extends StatefulWidget {
@@ -144,9 +112,21 @@ class PinDialog extends StatefulWidget {
 
 class _PinDialogState extends State<PinDialog> {
   String errorMessage = '';
+  String? globalPin;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchGlobalPin();
+  }
+
+  Future<void> fetchGlobalPin() async {
+    globalPin = await getGlobalPin();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("GLOBAL PIN $globalPin");
     return AlertDialog(
       title: Text('Enter PIN'),
       content: TextField(
@@ -174,11 +154,11 @@ class _PinDialogState extends State<PinDialog> {
     );
   }
 }
-
 Widget _buildSwitchModeCard(IconData iconData, String text, BuildContext context) {
   return GestureDetector(
     onTap: () async {
       final pin = await _showPinDialog(context);
+      String globalPin = await getGlobalPin();
       if (pin != null && pin == globalPin) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashPage()));
       }

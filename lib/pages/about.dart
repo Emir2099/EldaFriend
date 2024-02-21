@@ -26,6 +26,8 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return FutureBuilder<int>(
       future: calculateCacheSize(),
       builder: (context, snapshot) {
@@ -41,20 +43,20 @@ class AboutPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.info, size: 50),
-                  Text('My App', style: TextStyle(fontSize: 24)), // Hardcoded app name
-                  Text('Version: 1.0.0', style: TextStyle(fontSize: 16)), // Hardcoded version
-                  Text('Cache Size: ${cacheSizeInMB.toStringAsFixed(2)} MB', style: TextStyle(fontSize: 16)),
-                  Text('App Size: 93MB', style: TextStyle(fontSize: 16)),
+                  Icon(Icons.info, size: 50 * textScaleFactor),
+                  Text('My App', style: TextStyle(fontSize: 24 * textScaleFactor)), // Hardcoded app name
+                  Text('Version: 1.0.0', style: TextStyle(fontSize: 16 * textScaleFactor)), // Hardcoded version
+                  // Text('Cache Size: ${cacheSizeInMB.toStringAsFixed(2)} MB', style: TextStyle(fontSize: 16 * textScaleFactor)),
+                  // Text('App Size: 93MB', style: TextStyle(fontSize: 16 * textScaleFactor)),
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Text(
                       'A brief description about your app and its features.',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16 * textScaleFactor),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Text('© ${DateTime.now().year} My App. All rights reserved.', style: TextStyle(fontSize: 16)),
+                  Text('© ${DateTime.now().year} My App. All rights reserved.', style: TextStyle(fontSize: 16 * textScaleFactor)),
                 ],
               ),
             ),

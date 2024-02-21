@@ -8,23 +8,95 @@ class HelpPage extends StatefulWidget {
 }
 
 class _HelpPageState extends State<HelpPage> {
-    List<HelpItem> helpItems = [
-    HelpItem('Elder Mode', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('Medicine Reminder', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('Medicine History', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('Reports', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('Communities', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('Progress Bar', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('Gemini AI', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('Expense Tracker', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    HelpItem('SOS', 'This is a short description of the functionality.', 'This is a long description of the functionality.'),
-    // Add more HelpItems here
+  List<HelpItem> helpItems = [
+    HelpItem(
+      'Elder Mode',
+      'Set up dual modes',
+      HelpDetail([
+        'This functionality allows you to provide a better and elder-friendly interface. The person will only be able to access the important and emergency features of the application. To keep it secure and trusted, We implemented a pin security, without which you can not switch out of the Elder mode.\n To set up the Elder mode, you need to go to the settings and click on "Mode Pin", you will be asked to set a pin for the Elder mode. Once you set the pin, you can switch to the Elder mode.',
+        ImageContent(
+          imagePaths: [
+            "screenShots/elderMode/settings_icon_img.png",
+            "screenShots/elderMode/mode_pin_img.png",
+            "screenShots/elderMode/pin_set_img.png",
+            "screenShots/elderMode/switch_in_img.png",
+            "screenShots/elderMode/elder_page_img.png",
+          ],
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black, width: 2),
+          ),
+        ),
+      ]),
+    ),
+    HelpItem(
+      'Medicine Reminder',
+      'Never miss a dose again!',
+      HelpDetail([
+        'Click on the Medicine Reminder option in the main functionality, after being redirected, click on the add icon on the page which will pop up with several options. Set up the type, time, repeatation and other details as required. After taking medicine, double tap on the medicine card to turned it into "Taken", if not then double tap again to set it as "not taken". Long press the card for deleting it or all the medicines.',
+        ImageContent(
+          imagePaths: [
+            "screenShots/medicineReminder/medicine_reminder_img.png",
+            "screenShots/medicineReminder/medicine_reminder_layout_img.png",
+            "screenShots/medicineReminder/medicine_add_img.png",
+            "screenShots/medicineReminder/medicine_creation_img.png",
+            "screenShots/medicineReminder/medicine_card_not_taken_img.png",
+            "screenShots/medicineReminder/medicine_taken_card_img.png",
+            "screenShots/medicineReminder/medicine_delete_img.png",
+          ],
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black, width: 2),
+          ),
+        ),
+      ]),
+    ),
+    HelpItem(
+      'Reports',
+      'View medicine analytics',
+      HelpDetail([
+        'Have a look at graphs for better understanding with your medicine history. Go to View Reports which will display bar graph and pie chart shwoing your taken medicine distribution. The graphs are distribute between values "ml" and "mg"',
+        ImageContent(
+          imagePaths: [
+            "screenShots/medicineReports/report_button_img.png",
+            "screenShots/medicineReports/report_layout_img.png",
+            "screenShots/medicineReports/report_bar_chart_img.png",
+            "screenShots/medicineReports/report_pie_chart_img.png",
+          ],
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black, width: 2),
+          ),
+        ),
+      ]),
+    ),
+    HelpItem(
+      'Communities',
+      'Connect with others and share your thoughts',
+      HelpDetail([
+        'Join different communtites to share information and help others regarding elderly care. Click on communities button and then you will be directed to communitites layout. You can create your own community by pressing "add" button or search for any existing community to be a part of by giving its name.',
+        ImageContent(
+          imagePaths: [
+            "screenShots/communityGroups/communities_button_img.png",
+            "screenShots/communityGroups/group_layout_img.png",
+            "screenShots/communityGroups/group_creation_img.png",
+            "screenShots/communityGroups/in_group_layout_img.png",
+            "screenShots/communityGroups/group_info_img.png",
+            "screenShots/communityGroups/group_search_img.png",
+          ],
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black, width: 2),
+          ),
+        ),
+      ]),
+    ),
   ];
   List<HelpItem> filteredItems = [];
   TextEditingController searchController = TextEditingController();
 
-  bool isSearchOpen = false; 
-  
+  bool isSearchOpen = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,11 +105,12 @@ class _HelpPageState extends State<HelpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.blue[800],
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 25.0),
+          padding: EdgeInsets.only(top: screenSize.height * 0.02),
           child: Column(
             children: [
               Center(
@@ -53,7 +126,7 @@ class _HelpPageState extends State<HelpPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: screenSize.height * 0.01,
                     ),
                     Text(
                       'Enter your query',
@@ -63,32 +136,32 @@ class _HelpPageState extends State<HelpPage> {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: screenSize.height * 0.0001,
               ),
-       Padding(
-  padding: const EdgeInsets.all(16.0),
-  child: AnimatedSearch(
-    iconColor: Colors.blue[600],
-    cursorColor: Colors.black,
-    decoration: InputDecoration( // Custom decoration for the search query text field
-    hintText: 'Search',
-    hintStyle: TextStyle(color: Colors.grey[300]),
-    border: InputBorder.none,
-  ),
-    textEditingController: searchController,
-    onChanged: (String value) {
-      setState(() {
-        isSearchOpen = value.isNotEmpty;
-        filteredItems = helpItems
-            .where((item) =>
-                item.title.toLowerCase().contains(value.toLowerCase()))
-            .toList();
-      });
-    },
-  ),
-),
+              Padding(
+                padding: EdgeInsets.all(screenSize.height * 0.05),
+                child: AnimatedSearch(
+                  iconColor: Colors.blue[600],
+                  cursorColor: Colors.black,
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    hintStyle: TextStyle(color: Colors.grey[300]),
+                    border: InputBorder.none,
+                  ),
+                  textEditingController: searchController,
+                  onChanged: (String value) {
+                    setState(() {
+                      isSearchOpen = value.isNotEmpty;
+                      filteredItems = helpItems
+                          .where((item) =>
+                              item.title.toLowerCase().contains(value.toLowerCase()))
+                          .toList();
+                    });
+                  },
+                ),
+              ),
               SizedBox(
-                height: 25,
+                height: screenSize.height * 0.01,
               ),
               Expanded(
                 child: Container(
@@ -99,43 +172,20 @@ class _HelpPageState extends State<HelpPage> {
                       topRight: Radius.circular(25),
                     ),
                   ),
-                  padding: EdgeInsets.all(25),
+                  padding: EdgeInsets.all(screenSize.width * 0.06),
                   child: ListView.builder(
                     itemCount: filteredItems.length,
                     itemBuilder: (context, index) {
-                      return InkWell(
+                      return HelpCard(
+                        item: filteredItems[index],
                         onTap: () {
-                          showDialog(
+                          showModalBottomSheet(
                             context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(filteredItems[index].title),
-                              content: SingleChildScrollView(
-                                child: Text(filteredItems[index].longDescription),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: Text('Close'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            ),
+                            builder: (context) {
+                              return HelpCardDetail(item: filteredItems[index]);
+                            },
                           );
                         },
-                        child: Card(
-                          child: ListTile(
-                            title: Text(
-                              filteredItems[index].title,
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                            subtitle: Text(
-                              filteredItems[index].shortDescription,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
                       );
                     },
                   ),
@@ -149,10 +199,126 @@ class _HelpPageState extends State<HelpPage> {
   }
 }
 
+class HelpCard extends StatelessWidget {
+  final HelpItem item;
+  final VoidCallback onTap;
+
+  HelpCard({required this.item, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        child: ListTile(
+          title: Text(
+            item.title,
+            style: TextStyle(color: Colors.blue),
+          ),
+          subtitle: Text(
+            item.shortDescription,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HelpCardDetail extends StatelessWidget {
+  final HelpItem item;
+
+  HelpCardDetail({required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(screenSize.width * 0.05),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  primary: Colors.red,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(Icons.close, color: Colors.white),
+              ),
+            ),
+            Text(
+              item.title,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+             SizedBox(height: 10),
+            ...item.detail.content.map((contentItem) {
+              if (contentItem is String)
+                return Text(contentItem);
+              else if (contentItem is ImageContent)
+                return contentItem;
+              else
+                return Container(); // return an empty container if the type is not recognized
+            }).toList(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class HelpItem {
   final String title;
   final String shortDescription;
-  final String longDescription;
+  final HelpDetail detail;
 
-  HelpItem(this.title, this.shortDescription, this.longDescription);
+  HelpItem(this.title, this.shortDescription, this.detail);
+}
+
+class HelpDetail {
+  final List<dynamic> content;
+
+  HelpDetail(this.content);
+}
+
+class ImageContent extends StatelessWidget {
+  final List<String> imagePaths;
+  final BoxDecoration decoration;
+
+  ImageContent({required this.imagePaths, required this.decoration});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return Container(
+      padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
+      child: Column(
+        children: [
+          for (String imagePath in imagePaths)
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              decoration: decoration,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: screenSize.height * 0.25,
+                      child: Image.asset(
+                        imagePath,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

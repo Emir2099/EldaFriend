@@ -44,6 +44,10 @@ class _BotHomeState extends State<BotHome> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+    var paddingValue = screenSize.width * 0.05; // 5% of screen width
+    var buttonWidth = screenSize.width * 0.9; // 90% of screen width
+    var buttonHeight = screenSize.height * 0.08; // 8% of screen height
     return Scaffold(
       backgroundColor: Colors.blue[800],
       floatingActionButton:speaking? FloatingActionButton(
@@ -61,7 +65,7 @@ class _BotHomeState extends State<BotHome> {
       ): null,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 25.0),
+          padding: EdgeInsets.only(top: paddingValue),
           child: Column(
             children: [
               Center(
@@ -78,7 +82,7 @@ class _BotHomeState extends State<BotHome> {
                     ),
                   ),
                     SizedBox(
-                      height: 8,
+                      height: paddingValue,
                     ),
                     Text(
                       'Enter your query',
@@ -88,16 +92,16 @@ class _BotHomeState extends State<BotHome> {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: paddingValue,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+                padding: EdgeInsets.only(left: paddingValue, right: paddingValue),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.blue[600],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(paddingValue),
                   child: TextField(
                     controller: textController,
                     style: const TextStyle(
@@ -118,11 +122,11 @@ class _BotHomeState extends State<BotHome> {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: paddingValue,
               ),
               
               Padding(
-                padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+                padding: EdgeInsets.only(left: paddingValue, right: paddingValue),
                 child: 
           ElevatedButton(
             style: ButtonStyle(
@@ -153,7 +157,7 @@ class _BotHomeState extends State<BotHome> {
           ),
               ),
               SizedBox(
-                height: 25,
+                height: paddingValue,
               ),
              Expanded(
             child: Container(
@@ -164,7 +168,7 @@ class _BotHomeState extends State<BotHome> {
           topRight: Radius.circular(25),
                 ),
               ),
-              padding: EdgeInsets.all(25),
+              padding: EdgeInsets.all(paddingValue),
               child: Center(
                 child: Obx(
           () => isButtonPressed ? Container(
