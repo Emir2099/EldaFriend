@@ -31,6 +31,6 @@ Dashboard            |  Medicine Tracker          |  SOS
 
 # Installation
 
-Download the .apk from link
+Download the .apk from [rleases](https://github.com/Emir2099/EldaFriend/releases/tag/v1.0.0)
 
 
