@@ -1,6 +1,7 @@
 import 'package:animated_search/animated_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medtrack/screens/main_settings_screen.dart';
 
 class HelpPage extends StatefulWidget {
   @override
@@ -107,6 +108,39 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: Container(
+      decoration: BoxDecoration(
+        // color: Colors.blue[600],
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
+      child: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => AccountScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Help Center',
+          style: TextStyle(
+          
+            color: Color.fromARGB(255, 255, 255, 255),
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+         centerTitle: true,
+      ),
+    ),
+  ),
       backgroundColor: Colors.blue[800],
       body: SafeArea(
         child: Padding(
@@ -117,17 +151,17 @@ class _HelpPageState extends State<HelpPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Function Details',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: screenSize.height * 0.01,
-                    ),
+                    // const Text(
+                    //   'Function Details',
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontSize: 24,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: screenSize.height * 0.01,
+                    // ),
                     Text(
                       'Enter your query',
                       style: TextStyle(color: Colors.blue[100]),
@@ -135,9 +169,7 @@ class _HelpPageState extends State<HelpPage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: screenSize.height * 0.0001,
-              ),
+              
               Padding(
                 padding: EdgeInsets.all(screenSize.height * 0.05),
                 child: AnimatedSearch(
@@ -160,9 +192,9 @@ class _HelpPageState extends State<HelpPage> {
                   },
                 ),
               ),
-              SizedBox(
-                height: screenSize.height * 0.01,
-              ),
+              // SizedBox(
+              //   height: screenSize.height * 0.01,
+              // ),
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(

@@ -95,6 +95,7 @@ flutter:
     - assets/images/
     - assets/
     - screenShots/sos_img.png
+    - screenShots/about_logo.png
     - screenShots/elderMode/elder_page_img.png
     - screenShots/elderMode/mode_pin_img.png
     - screenShots/elderMode/pin_set_img.png

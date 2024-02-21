@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:medtrack/pages/dash.dart';
 import 'package:provider/provider.dart';
 import 'package:medtrack/components/group_tile.dart';
 import 'package:medtrack/components/primary_btn.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (snapshot.hasData) {
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
-              print("Initlizing ..............");
+              print("Initializing ..............");
               return ListView.builder(
                 itemCount: snapshot.data['groups'].length,
                 itemBuilder: (context, index) {
@@ -222,140 +223,151 @@ class _HomeScreenState extends State<HomeScreen> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Groups"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.search),
+  leading: IconButton(
+    onPressed: () {
+       Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DashPage(),
           ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 5),
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            const Icon(
-              Icons.account_circle,
-              size: 100,
-              color: kprimaryColor,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              username,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            const Divider(
-              color: kprimaryColor,
-              height: 2,
-            ),
-            // ListTile(
-            //   onTap: () {},
-            //   selected: false,
-            //   selectedColor: kprimaryColor,
-            //   leading: const Icon(Icons.dark_mode),
-            //   title: const Text(
-            //     "Dark Mode",
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //     ),
-            //   ),
-            //   trailing: Switch.adaptive(
-            //     value: themeProvider.isDarkMode,
-            //     onChanged: (value) {
-            //       final provider =
-            //           Provider.of<ThemeProvider>(context, listen: false);
-            //       provider.toggleThemeMode(value);
-            //     },
-            //   ),
-            //   // trailing: ,
-            //   // contentPadding:
-            //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            // ),
-            // const SizedBox(
-            //   height: 16,
-            // ),
-            // ListTile(
-            //   onTap: () {},
-            //   selected: true,
-            //   selectedColor: kprimaryColor,
-            //   leading: const Icon(Icons.group),
-            //   title: const Text(
-            //     "Groups",
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //     ),
-            //   ),
-            //   // contentPadding:
-            //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            // ),
-            // ListTile(
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     Navigator.pushReplacement(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => const ProfileScreen(),
-            //       ),
-            //     );
-            //   },
-            //   selectedColor: kprimaryColor,
-            //   leading: const Icon(Icons.person),
-            //   title: const Text(
-            //     "Profile",
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //     ),
-            //   ),
-            //   // contentPadding:
-            //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            // ),
-            // const Divider(
-            //   color: kprimaryColor,
-            //   height: 2,
-            // ),
-            // ListTile(
-            //   onTap: () {
-            //     Auth().signoutUser().whenComplete(() async {
-            //       await HelperFunction
-            //           .saveUserLoggedInStatusToSharedPreferences(false);
-            //       await HelperFunction.saveUsernameToSharedPreferences("");
-            //       await HelperFunction.saveUserEmailToSharedPreferences("");
-            //       navigateToLoginScreen();
-            //     });
-            //   },
-            //   selectedColor: kprimaryColor,
-            //   leading: const Icon(Icons.logout),
-            //   title: const Text(
-            //     "Logout",
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //     ),
-            //   ),
-            //   // contentPadding:
-            //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            // ),
-          ],
-        ),
-      ),
+        );
+    },
+    icon: const Icon(Icons.arrow_back), 
+  ),
+  title: const Text("Groups"),
+  actions: [
+    IconButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SearchScreen(),
+          ),
+        );
+      },
+      icon: const Icon(Icons.search),
+    ),
+  ],
+),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 5),
+      //     children: [
+      //       const SizedBox(
+      //         height: 30,
+      //       ),
+      //       const Icon(
+      //         Icons.account_circle,
+      //         size: 100,
+      //         color: kprimaryColor,
+      //       ),
+      //       const SizedBox(
+      //         height: 16,
+      //       ),
+      //       Text(
+      //         username,
+      //         textAlign: TextAlign.center,
+      //         style: const TextStyle(
+      //           fontSize: 22,
+      //           fontWeight: FontWeight.bold,
+      //         ),
+      //       ),
+      //       const SizedBox(
+      //         height: 30,
+      //       ),
+      //       const Divider(
+      //         color: kprimaryColor,
+      //         height: 2,
+      //       ),
+      //       // ListTile(
+      //       //   onTap: () {},
+      //       //   selected: false,
+      //       //   selectedColor: kprimaryColor,
+      //       //   leading: const Icon(Icons.dark_mode),
+      //       //   title: const Text(
+      //       //     "Dark Mode",
+      //       //     style: TextStyle(
+      //       //       fontSize: 18,
+      //       //     ),
+      //       //   ),
+      //       //   trailing: Switch.adaptive(
+      //       //     value: themeProvider.isDarkMode,
+      //       //     onChanged: (value) {
+      //       //       final provider =
+      //       //           Provider.of<ThemeProvider>(context, listen: false);
+      //       //       provider.toggleThemeMode(value);
+      //       //     },
+      //       //   ),
+      //       //   // trailing: ,
+      //       //   // contentPadding:
+      //       //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      //       // ),
+      //       // const SizedBox(
+      //       //   height: 16,
+      //       // ),
+      //       // ListTile(
+      //       //   onTap: () {},
+      //       //   selected: true,
+      //       //   selectedColor: kprimaryColor,
+      //       //   leading: const Icon(Icons.group),
+      //       //   title: const Text(
+      //       //     "Groups",
+      //       //     style: TextStyle(
+      //       //       fontSize: 18,
+      //       //     ),
+      //       //   ),
+      //       //   // contentPadding:
+      //       //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      //       // ),
+      //       // ListTile(
+      //       //   onTap: () {
+      //       //     Navigator.pop(context);
+      //       //     Navigator.pushReplacement(
+      //       //       context,
+      //       //       MaterialPageRoute(
+      //       //         builder: (context) => const ProfileScreen(),
+      //       //       ),
+      //       //     );
+      //       //   },
+      //       //   selectedColor: kprimaryColor,
+      //       //   leading: const Icon(Icons.person),
+      //       //   title: const Text(
+      //       //     "Profile",
+      //       //     style: TextStyle(
+      //       //       fontSize: 18,
+      //       //     ),
+      //       //   ),
+      //       //   // contentPadding:
+      //       //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      //       // ),
+      //       // const Divider(
+      //       //   color: kprimaryColor,
+      //       //   height: 2,
+      //       // ),
+      //       // ListTile(
+      //       //   onTap: () {
+      //       //     Auth().signoutUser().whenComplete(() async {
+      //       //       await HelperFunction
+      //       //           .saveUserLoggedInStatusToSharedPreferences(false);
+      //       //       await HelperFunction.saveUsernameToSharedPreferences("");
+      //       //       await HelperFunction.saveUserEmailToSharedPreferences("");
+      //       //       navigateToLoginScreen();
+      //       //     });
+      //       //   },
+      //       //   selectedColor: kprimaryColor,
+      //       //   leading: const Icon(Icons.logout),
+      //       //   title: const Text(
+      //       //     "Logout",
+      //       //     style: TextStyle(
+      //       //       fontSize: 18,
+      //       //     ),
+      //       //   ),
+      //       //   // contentPadding:
+      //       //   // const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      //       // ),
+      //     ],
+      //   ),
+      // ),
       body: getGroupList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -363,6 +375,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: const Icon(Icons.add),
       ),
+      
     );
   }
 }

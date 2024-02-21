@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart'; // Add this line to import the 'get' package
 import 'package:medtrack/geminiapi/consts.dart';
+import 'package:medtrack/pages/dash.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -50,6 +51,39 @@ class _BotHomeState extends State<BotHome> {
     var buttonHeight = screenSize.height * 0.08; // 8% of screen height
     return Scaffold(
       backgroundColor: Colors.blue[800],
+      appBar: PreferredSize(
+    preferredSize: Size.fromHeight(70),
+    child: Container(
+      decoration: BoxDecoration(
+        // color: Colors.blue[600],
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
+      child: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => DashPage()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Gemini AI',
+          style: TextStyle(
+          
+            color: Color.fromARGB(255, 255, 255, 255),
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+         centerTitle: true,
+      ),
+    ),
+  ),
       floatingActionButton:speaking? FloatingActionButton(
         child: Icon(Icons.volume_off),
         // style: ElevatedButton.styleFrom(
@@ -68,32 +102,32 @@ class _BotHomeState extends State<BotHome> {
           padding: EdgeInsets.only(top: paddingValue),
           child: Column(
             children: [
-              Center(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  const Text(
-                    'Gemini BOT',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                    SizedBox(
-                      height: paddingValue,
-                    ),
-                    Text(
-                      'Enter your query',
-                      style: TextStyle(color: Colors.blue[100]),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: paddingValue,
-              ),
+              // Center(
+              //   child: Column(
+              //     // mainAxisAlignment: MainAxisAlignment.center,
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //     const Text(
+              //       'Gemini BOT',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 24,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //       SizedBox(
+              //         height: paddingValue,
+              //       ),
+              //       Text(
+              //         'Enter your query',
+              //         style: TextStyle(color: Colors.blue[100]),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: paddingValue,
+              // ),
               Padding(
                 padding: EdgeInsets.only(left: paddingValue, right: paddingValue),
                 child: Container(
