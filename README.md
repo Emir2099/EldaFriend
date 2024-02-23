@@ -31,6 +31,34 @@ Dashboard            |  Medicine Tracker          |  SOS
 
 # Installation
 
-Download the .apk from [release](https://github.com/Emir2099/EldaFriend/releases/tag/v1.0.0)
+Download the .apk from [release](https://github.com/Emir2099/Eldafriend/releases/tag/v1.0.0)
 
 
+# Step-by-Step Guide to Use Eldafriend Flutter Mobile Application Source Code:
+
+**Step 1: Prerequisites**
+<br>
+Ensure you have the following installed on your development machine:
+- Flutter SDK: Visit Flutter Installation Guide for installation instructions.
+- Dart SDK: Included with Flutter installation.
+- Code Editor: Use Visual Studio Code
+
+**Step 2: Clone the Repository**
+<br>
+Clone the Eldafriend repository from the GitHub link provided:
+```bash
+git clone https://github.com/Emir2099/Eldafriend.git
+```
+
+**Step 3: Install Dependencies**
+<br>
+```bash
+flutter pub get
+```
+
+**Step 4: Run the Application**
+<br>
+Launch the Eldafriend app on an emulator or connected device:
+```bash
+flutter run
+```
